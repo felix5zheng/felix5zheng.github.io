@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' blob:; style-src 'unsafe-inline'; script-src 'sha256-Ktm+rRL+sVtmcKaaEhxwtHXV3kiNiwaEhvR9TOGjjUM='; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' blob:; style-src 'unsafe-inline'; script-src 'sha256-Ktm+rRL+sVtmcKaaEhxwtHXV3kiNiwaEhvR9TOGjjUM=' 'sha256-ADpu40Rm2Axj8HB/7A8AbkYwaTHBM/9XG6BAX8CGoSo=' 'sha256-D3caKY73TRkcxqV2fgw47Yta+Zq5LjPKTcOZ6GLD+VQ='; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>我都ok啊 | imokahhhh</title>
 <meta name="description" content="攝影頻道我都ok啊做的 App、相簿和小工具：拍什麼都ok、備份都ok、監看都ok、傳送都ok。">
@@ -48,7 +48,8 @@ a { color: inherit; }
 .bar-in { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); min-height: var(--bar-h); }
 .brand { display: flex; align-items: baseline; gap: var(--space-sm); text-decoration: none; color: var(--color-ink); font-family: var(--font-display); font-size: 19px; font-weight: 600; letter-spacing: 0.012em; white-space: nowrap; border-radius: 6px; }
 .brand small { font-size: var(--text-xs); font-weight: 400; letter-spacing: 0; color: var(--color-muted); }
-.nav { display: flex; gap: var(--space-lg); }
+.nav { display: flex; gap: var(--space-lg); margin-left: auto; }
+:root:not(:lang(zh)) .brand small { display: none; }
 .nav a { font-size: var(--text-xs); color: var(--color-ink-2); text-decoration: none; padding-block: var(--space-sm); border-radius: 4px; transition: color var(--dur) var(--ease); }
 .nav a:hover { color: var(--color-ink); text-decoration: underline; text-underline-offset: 0.3em; text-decoration-color: var(--color-hairline); }
 
@@ -104,31 +105,63 @@ section { padding-block: var(--space-xl); }
 }
 @media (hover: none) { .album:hover, .card:hover { transform: none; box-shadow: var(--ring); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } .album:hover, .card:hover { transform: none; } }
+/* ok-i18n:start */
+/* ok-i18n：語言選單與各語言字體。顏色、圓角、陰影全部走頁面自己的 token。 */
+:root:lang(zh-Hans) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", "Noto Sans SC", "Microsoft YaHei", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+:root:lang(ja) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; }
+:root:lang(ko) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+:root:lang(hi) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Kohinoor Devanagari", "Noto Sans Devanagari", "Nirmala UI", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Kohinoor Devanagari", "Noto Sans Devanagari", "Nirmala UI", sans-serif; }
+:root:lang(hi) body, :root:lang(ko) body, :root:lang(ja) body { letter-spacing: 0; }
+:root:lang(en), :root:lang(es), :root:lang(pt), :root:lang(ms), :root:lang(hi) { word-break: normal; overflow-wrap: break-word; }
+
+.lang { position: relative; flex: none; }
+.lang-btn { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px 0 9px; font: inherit; font-size: var(--text-xs, 12px); color: var(--color-ink-2); background: transparent; border: 1px solid var(--color-hairline); border-radius: var(--radius-pill, 9999px); cursor: pointer; white-space: nowrap; transition: color var(--dur, 240ms) var(--ease), border-color var(--dur, 240ms) var(--ease), background-color var(--dur, 240ms) var(--ease); }
+.lang-btn svg { width: 14px; height: 14px; flex: none; }
+.lang-btn:hover, .lang-btn[aria-expanded="true"] { color: var(--color-ink); border-color: var(--color-ink); }
+.lang-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; transition: none; }
+.lang-btn:active { background: var(--color-band); }
+.lang-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; min-width: 176px; max-height: min(70dvh, 420px); overflow-y: auto; margin: 0; padding: 6px; list-style: none; background: var(--color-card); border-radius: var(--radius-md, 14px); box-shadow: var(--shadow-lift); }
+.lang-menu[hidden] { display: none; }
+.lang-menu button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 9px 12px; font: inherit; font-size: var(--text-sm, 14px); line-height: 1.35; letter-spacing: 0; color: var(--color-ink); background: transparent; border: 0; border-radius: 9px; cursor: pointer; text-align: left; }
+.lang-menu button[lang="zh-Hant"] { font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif; }
+.lang-menu button[lang="zh-Hans"] { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif; }
+.lang-menu button[lang="ja"] { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+.lang-menu button[lang="ko"] { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+.lang-menu button[lang="hi"] { font-family: -apple-system, BlinkMacSystemFont, "Kohinoor Devanagari", "Noto Sans Devanagari", sans-serif; }
+.lang-menu button:hover { background: var(--color-band); }
+.lang-menu button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -2px; }
+.lang-menu button[aria-checked="true"]::after { content: ""; width: 9px; height: 5px; margin-top: -3px; border-left: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); }
+@media (prefers-reduced-motion: reduce) { .lang-btn { transition: none; } }
+/* ok-i18n:end */
 </style>
 </head>
 <body>
 <header class="bar">
   <div class="container bar-in">
-    <a class="brand" href="/">我都ok啊<small>imokahhhh</small></a>
-    <nav class="nav" aria-label="區塊">
-      <a href="#album">相簿</a><a href="#apps">App</a><a href="#tools">小工具</a>
+    <a class="brand" href="/"><span data-i="brand">我都ok啊</span><small>imokahhhh</small></a>
+    <nav class="nav" aria-label="區塊" data-ia="aria-label:nav_label">
+      <a href="#album" data-i="nav_album">相簿</a><a href="#apps" data-i="nav_apps">App</a><a href="#tools" data-i="nav_tools">小工具</a>
     </nav>
+    <div class="lang" id="lang">
+  <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" aria-label="Language"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="8" cy="8" r="6.3"/><path d="M1.7 8h12.6M8 1.7c1.8 1.7 2.7 3.8 2.7 6.3S9.8 12.6 8 14.3M8 1.7C6.2 3.4 5.3 5.5 5.3 8s.9 4.6 2.7 6.3"/></svg><span id="langCur">繁中</span></button>
+  <ul class="lang-menu" id="langMenu" role="menu" aria-label="Language" hidden></ul>
+</div>
   </div>
 </header>
 
 <main>
   <div class="container intro">
-    <h1>我都ok啊</h1>
-    <p>攝影頻道做的 App、相簿和小工具。</p>
+    <h1 data-i="brand">我都ok啊</h1>
+    <p data-i="intro">攝影頻道做的 App、相簿和小工具。</p>
   </div>
 
   <section id="album" class="container" aria-labelledby="album-h">
     <a class="album" href="/okcam/">
       <div>
-        <h2 id="album-h">拍什麼都ok 相簿</h2>
+        <h2 id="album-h" data-i="album_h">拍什麼都ok 相簿</h2>
         <p class="en">OK Cam - Snap Anything</p>
-        <p class="meta">341 張照片，點開可以放大看細節。</p>
-        <span class="go">打開相簿</span>
+        <p class="meta" data-i="album_meta">341 張照片，點開可以放大看細節。</p>
+        <span class="go" data-i="album_go">打開相簿</span>
       </div>
       <div class="strip" aria-hidden="true">
         <span class="ph" data-s="01" style="background-position:0 11.2665%"></span>
@@ -142,41 +175,41 @@ section { padding-block: var(--space-xl); }
   </section>
 
   <section id="apps" class="container" aria-labelledby="apps-h">
-    <div class="sec-head"><h2 id="apps-h">App</h2><span>iPhone 與 Mac</span></div>
+    <div class="sec-head"><h2 id="apps-h" data-i="nav_apps">App</h2><span data-i="apps_sub">iPhone 與 Mac</span></div>
     <div class="grid">
       <a class="card" href="/imokahhhh/">
-        <span class="icon" style="background-image:url(/icons/okcam-icon.png)" role="img" aria-label="拍什麼都ok 圖示"></span>
-        <h3>拍什麼都ok</h3><span class="plat">iPhone</span>
-        <p>iPhone 上的底片相機。取景時就看得到濾鏡，按下快門就是成片。</p>
+        <span class="icon" style="background-image:url(/icons/okcam-icon.png)" role="img" aria-label="拍什麼都ok 圖示" data-ia="aria-label:okcam_icon"></span>
+        <h3 data-i="okcam">拍什麼都ok</h3><span class="plat">iPhone</span>
+        <p data-i="okcam_desc">iPhone 上的底片相機。取景時就看得到濾鏡，按下快門就是成片。</p>
       </a>
       <a class="card" href="/backup-ok/">
-        <span class="icon" style="background-image:url(/backup-ok/icons/app-icon-256.png)" role="img" aria-label="備份都ok 圖示"></span>
-        <h3>備份都ok</h3><span class="plat">Mac</span>
-        <p>給影像工作者的記憶卡備份工具。每一個檔案，都讀回來再確認一次。</p>
+        <span class="icon" style="background-image:url(/backup-ok/icons/app-icon-256.png)" role="img" aria-label="備份都ok 圖示" data-ia="aria-label:backup_icon"></span>
+        <h3 data-i="backup">備份都ok</h3><span class="plat">Mac</span>
+        <p data-i="backup_desc">給影像工作者的記憶卡備份工具。每一個檔案，都讀回來再確認一次。</p>
       </a>
       <a class="card" href="/monitor-ok/">
-        <span class="icon" style="background-image:url(/monitor-ok/icons/app-icon-256.png)" role="img" aria-label="監看都ok 圖示"></span>
-        <h3>監看都ok</h3><span class="plat">Mac</span>
-        <p>給影像工作者的選單列監看工具。處理器、顯示卡、溫度和硬碟即時更新，輸出時自動全開風扇。</p>
+        <span class="icon" style="background-image:url(/monitor-ok/icons/app-icon-256.png)" role="img" aria-label="監看都ok 圖示" data-ia="aria-label:monitor_icon"></span>
+        <h3 data-i="monitor">監看都ok</h3><span class="plat">Mac</span>
+        <p data-i="monitor_desc">給影像工作者的選單列監看工具。處理器、顯示卡、溫度和硬碟即時更新，輸出時自動全開風扇。</p>
       </a>
       <a class="card" href="/send-ok/">
-        <span class="icon" style="background-image:url(/send-ok/icons/app-icon-256.png)" role="img" aria-label="傳送都ok 圖示"></span>
-        <h3>傳送都ok</h3><span class="plat">Mac</span>
-        <p>把檔案拖到 Mac 瀏海，放開就用 AirDrop 傳送。傳完自動關掉 AirDrop 視窗。</p>
+        <span class="icon" style="background-image:url(/send-ok/icons/app-icon-256.png)" role="img" aria-label="傳送都ok 圖示" data-ia="aria-label:send_icon"></span>
+        <h3 data-i="send">傳送都ok</h3><span class="plat">Mac</span>
+        <p data-i="send_desc">把檔案拖到 Mac 瀏海，放開就用 AirDrop 傳送。傳完自動關掉 AirDrop 視窗。</p>
       </a>
     </div>
   </section>
 
   <section id="tools" class="container" aria-labelledby="tools-h">
-    <div class="sec-head"><h2 id="tools-h">小工具</h2><span>打開網頁就能用</span></div>
+    <div class="sec-head"><h2 id="tools-h" data-i="nav_tools">小工具</h2><span data-i="tools_sub">打開網頁就能用</span></div>
     <div class="grid">
       <a class="card text" href="/ig-location-post/">
-        <h3>地點貼文產生器</h3>
-        <p>照片、地圖和資訊卡排成一張地點貼文，直接輸出成圖片。</p>
+        <h3 data-i="locpost">地點貼文產生器</h3>
+        <p data-i="locpost_desc">照片、地圖和資訊卡排成一張地點貼文，直接輸出成圖片。</p>
       </a>
       <a class="card text" href="/mofumofu-linklink/">
         <h3>もふもふ連連看</h3>
-        <p>毛茸茸動物連連看，在倒數結束前把相同的動物配對消掉。</p>
+        <p data-i="mofu_desc">毛茸茸動物連連看，在倒數結束前把相同的動物配對消掉。</p>
       </a>
     </div>
   </section>
@@ -197,5 +230,89 @@ section { padding-block: var(--space-xl); }
   document.querySelectorAll('.strip .ph[data-s]').forEach(el => sheet(el.dataset.s).then(u => { el.style.backgroundImage = 'url(' + u + ')'; }).catch(() => {}));
   document.querySelector('.strip').addEventListener('contextmenu', e => e.preventDefault());
 })();</script>
+<script>window.OK_I18N = {"_title":["我都ok啊 | imokahhhh","我都ok啊 | imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh"],"_desc":["攝影頻道我都ok啊做的 App、相簿和小工具：拍什麼都ok、備份都ok、監看都ok、傳送都ok。","摄影频道我都ok啊做的 App、相册和小工具：拍什么都ok、备份都ok、监看都ok、传送都ok。","Apps, a photo album and small tools from the imokahhhh photography channel: OK Cam, Backup OK, Monitor OK and Send OK.","写真チャンネル imokahhhh が作ったアプリ、アルバム、小さなツール：OK Cam、Backup OK、Monitor OK、Send OK。","사진 채널 imokahhhh가 만든 앱, 앨범, 작은 도구: OK Cam, Backup OK, Monitor OK, Send OK.","Apps, un álbum de fotos y pequeñas herramientas del canal de fotografía imokahhhh: OK Cam, Backup OK, Monitor OK y Send OK.","Apps, um álbum de fotos e pequenas ferramentas do canal de fotografia imokahhhh: OK Cam, Backup OK, Monitor OK e Send OK.","फ़ोटोग्राफ़ी चैनल imokahhhh के ऐप, फ़ोटो एल्बम और छोटे टूल: OK Cam, Backup OK, Monitor OK और Send OK.","Apl, album foto dan alat kecil daripada saluran fotografi imokahhhh: OK Cam, Backup OK, Monitor OK dan Send OK."],"brand":["我都ok啊","我都ok啊","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh"],"nav_label":["區塊","区块","Sections","セクション","섹션","Secciones","Seções","अनुभाग","Bahagian"],"nav_album":["相簿","相册","Album","アルバム","앨범","Álbum","Álbum","एल्बम","Album"],"nav_apps":["App","App","Apps","アプリ","앱","Apps","Apps","ऐप","Apl"],"nav_tools":["小工具","小工具","Tools","ツール","도구","Herramientas","Ferramentas","टूल","Alat"],"intro":["攝影頻道做的 App、相簿和小工具。","摄影频道做的 App、相册和小工具。","Apps, an album and small tools from a photography channel.","写真チャンネルが作ったアプリ、アルバム、小さなツール。","사진 채널이 만든 앱, 앨범, 작은 도구.","Apps, un álbum y pequeñas herramientas de un canal de fotografía.","Apps, um álbum e pequenas ferramentas de um canal de fotografia.","एक फ़ोटोग्राफ़ी चैनल के ऐप, एल्बम और छोटे टूल।","Apl, album dan alat kecil daripada sebuah saluran fotografi."],"album_h":["拍什麼都ok 相簿","拍什么都ok 相册","OK Cam album","OK Cam アルバム","OK Cam 앨범","Álbum de OK Cam","Álbum do OK Cam","OK Cam एल्बम","Album OK Cam"],"album_meta":["341 張照片，點開可以放大看細節。","341 张照片，点开可以放大看细节。","341 photos. Open one to zoom in on the details.","341 枚の写真。開くと拡大して細部まで見られます。","사진 341장. 열어서 확대하면 디테일까지 볼 수 있어요.","341 fotos. Abre una para ampliar y ver los detalles.","341 fotos. Abra uma para ampliar e ver os detalhes.","341 फ़ोटो। किसी को खोलें और ज़ूम करके बारीकियाँ देखें।","341 foto. Buka satu untuk zum dan lihat butirannya."],"album_go":["打開相簿","打开相册","Open the album","アルバムを開く","앨범 열기","Abrir el álbum","Abrir o álbum","एल्बम खोलें","Buka album"],"apps_sub":["iPhone 與 Mac","iPhone 与 Mac","iPhone and Mac","iPhone と Mac","iPhone 및 Mac","iPhone y Mac","iPhone e Mac","iPhone और Mac","iPhone dan Mac"],"okcam":["拍什麼都ok","拍什么都ok","OK Cam","OK Cam","OK Cam","OK Cam","OK Cam","OK Cam","OK Cam"],"okcam_icon":["拍什麼都ok 圖示","拍什么都ok 图标","OK Cam icon","OK Cam のアイコン","OK Cam 아이콘","Icono de OK Cam","Ícone do OK Cam","OK Cam आइकन","Ikon OK Cam"],"okcam_desc":["iPhone 上的底片相機。取景時就看得到濾鏡，按下快門就是成片。","iPhone 上的胶片相机。取景时就看得到滤镜，按下快门就是成片。","A film camera for iPhone. See the look while you frame; press the shutter and the photo is done.","iPhone のフィルムカメラ。構図を決めながらフィルターが見え、シャッターを切ればそのまま完成。","iPhone용 필름 카메라. 구도를 잡을 때 필터가 바로 보이고, 셔터를 누르면 그대로 완성이에요.","Una cámara analógica para iPhone. Ves el filtro mientras encuadras; disparas y la foto está lista.","Uma câmera de filme para iPhone. Você vê o filtro enquanto enquadra; disparou, a foto está pronta.","iPhone के लिए फ़िल्म कैमरा। फ़्रेम बनाते समय ही फ़िल्टर दिखता है; शटर दबाते ही फ़ोटो तैयार।","Kamera filem untuk iPhone. Nampak penapis semasa membingkai; tekan pengatup dan foto siap."],"backup":["備份都ok","备份都ok","Backup OK","Backup OK","Backup OK","Backup OK","Backup OK","Backup OK","Backup OK"],"backup_icon":["備份都ok 圖示","备份都ok 图标","Backup OK icon","Backup OK のアイコン","Backup OK 아이콘","Icono de Backup OK","Ícone do Backup OK","Backup OK आइकन","Ikon Backup OK"],"backup_desc":["給影像工作者的記憶卡備份工具。每一個檔案，都讀回來再確認一次。","给影像工作者的存储卡备份工具。每一个文件，都读回来再确认一次。","Memory card backup for photographers and filmmakers. Every file is read back and checked again.","写真・映像制作者のためのメモリーカードバックアップ。すべてのファイルを読み戻して再確認します。","사진·영상 작업자를 위한 메모리 카드 백업 도구. 모든 파일을 다시 읽어 한 번 더 확인해요.","Copias de seguridad de tarjetas de memoria para fotógrafos y videógrafos. Cada archivo se vuelve a leer y se comprueba.","Backup de cartões de memória para fotógrafos e videomakers. Cada arquivo é lido de volta e conferido de novo.","फ़ोटोग्राफ़रों और फ़िल्ममेकरों के लिए मेमोरी कार्ड बैकअप। हर फ़ाइल को वापस पढ़कर दोबारा जाँचा जाता है।","Sandaran kad memori untuk jurugambar dan pembikin video. Setiap fail dibaca semula dan disemak sekali lagi."],"monitor":["監看都ok","监看都ok","Monitor OK","Monitor OK","Monitor OK","Monitor OK","Monitor OK","Monitor OK","Monitor OK"],"monitor_icon":["監看都ok 圖示","监看都ok 图标","Monitor OK icon","Monitor OK のアイコン","Monitor OK 아이콘","Icono de Monitor OK","Ícone do Monitor OK","Monitor OK आइकन","Ikon Monitor OK"],"monitor_desc":["給影像工作者的選單列監看工具。處理器、顯示卡、溫度和硬碟即時更新，輸出時自動全開風扇。","给影像工作者的菜单栏监看工具。处理器、显卡、温度和硬盘实时更新，导出时自动全开风扇。","A menu bar monitor for photographers and filmmakers. CPU, GPU, temperatures and disks update live, and the fans go full speed while you export.","写真・映像制作者のためのメニューバーモニター。CPU、GPU、温度、ディスクをリアルタイム表示し、書き出し中はファンを全開にします。","사진·영상 작업자를 위한 메뉴 막대 모니터. CPU, GPU, 온도, 디스크가 실시간으로 갱신되고, 내보내는 동안 팬을 최대로 돌려요.","Un monitor en la barra de menús para fotógrafos y videógrafos. CPU, GPU, temperaturas y discos al instante, y ventiladores al máximo mientras exportas.","Um monitor na barra de menus para fotógrafos e videomakers. CPU, GPU, temperaturas e discos em tempo real, e ventoinhas no máximo enquanto você exporta.","फ़ोटोग्राफ़रों और फ़िल्ममेकरों के लिए मेन्यू बार मॉनिटर। CPU, GPU, तापमान और डिस्क लाइव अपडेट होते हैं, और एक्सपोर्ट के दौरान फ़ैन पूरी रफ़्तार पर चलते हैं।","Pemantau bar menu untuk jurugambar dan pembikin video. CPU, GPU, suhu dan cakera dikemas kini secara langsung, dan kipas berpusing penuh semasa mengeksport."],"send":["傳送都ok","传送都ok","Send OK","Send OK","Send OK","Send OK","Send OK","Send OK","Send OK"],"send_icon":["傳送都ok 圖示","传送都ok 图标","Send OK icon","Send OK のアイコン","Send OK 아이콘","Icono de Send OK","Ícone do Send OK","Send OK आइकन","Ikon Send OK"],"send_desc":["把檔案拖到 Mac 瀏海，放開就用 AirDrop 傳送。傳完自動關掉 AirDrop 視窗。","把文件拖到 Mac 刘海，松开就用 AirDrop 发送。发完自动关掉 AirDrop 窗口。","Drag a file to your Mac's notch and let go to send it with AirDrop. The AirDrop window closes by itself when it's done.","ファイルを Mac のノッチにドラッグして離すだけで AirDrop で送信。送り終わると AirDrop のウインドウは自動で閉じます。","파일을 Mac 노치로 끌어다 놓으면 AirDrop으로 전송돼요. 다 보내면 AirDrop 창이 자동으로 닫혀요.","Arrastra un archivo al notch del Mac y suéltalo para enviarlo por AirDrop. La ventana de AirDrop se cierra sola al terminar.","Arraste um arquivo até o notch do Mac e solte para enviar por AirDrop. A janela do AirDrop fecha sozinha no final.","फ़ाइल को Mac के नॉच पर खींचकर छोड़ें, वह AirDrop से भेज दी जाएगी। भेजने के बाद AirDrop विंडो अपने आप बंद हो जाती है।","Seret fail ke takuk Mac dan lepaskan untuk menghantarnya dengan AirDrop. Tetingkap AirDrop tertutup sendiri apabila selesai."],"tools_sub":["打開網頁就能用","打开网页就能用","Open the page and use it","ページを開くだけで使えます","페이지를 열면 바로 사용","Abre la página y úsala","Abra a página e use","पेज खोलें और इस्तेमाल करें","Buka halaman dan terus guna"],"locpost":["地點貼文產生器","地点贴文生成器","Location post maker","スポット投稿メーカー","장소 게시물 메이커","Creador de posts de lugares","Criador de posts de lugares","लोकेशन पोस्ट मेकर","Pembuat hantaran lokasi"],"locpost_desc":["照片、地圖和資訊卡排成一張地點貼文，直接輸出成圖片。","照片、地图和信息卡排成一张地点贴文，直接导出成图片。","Lay out photos, a map and an info card as one location post, then export it as an image.","写真、地図、情報カードを一枚のスポット投稿にまとめて、そのまま画像で書き出せます。","사진, 지도, 정보 카드를 한 장의 장소 게시물로 배치하고 바로 이미지로 내보내요.","Coloca fotos, un mapa y una ficha en un solo post de lugar y expórtalo como imagen.","Monte fotos, um mapa e um cartão de informações em um único post de lugar e exporte como imagem.","फ़ोटो, नक्शा और जानकारी कार्ड को एक लोकेशन पोस्ट में सजाएँ और सीधे इमेज के रूप में एक्सपोर्ट करें।","Susun foto, peta dan kad maklumat sebagai satu hantaran lokasi, kemudian eksport sebagai imej."],"mofu_desc":["毛茸茸動物連連看，在倒數結束前把相同的動物配對消掉。","毛茸茸动物连连看，在倒数结束前把相同的动物配对消掉。","A fluffy-animal matching game: pair up the same animals before the timer runs out.","もふもふ動物の連結パズル。時間切れになる前に同じ動物をペアにして消しましょう。","복슬복슬 동물 짝 맞추기. 시간이 끝나기 전에 같은 동물끼리 짝지어 없애세요.","Un juego de parejas con animalitos peludos: une los iguales antes de que se acabe el tiempo.","Um jogo de pares com bichinhos fofos: junte os iguais antes que o tempo acabe.","रोएँदार जानवरों का मिलान खेल: समय ख़त्म होने से पहले एक जैसे जानवरों की जोड़ी बनाकर हटाएँ।","Permainan padan haiwan gebu: pasangkan haiwan yang sama sebelum masa tamat."]};</script>
+<script>// ok-i18n: imokahhhh.com 共用多國語言。順序 = 網址 ?lang= → 使用者上次選的（全站共用 ok-lang）→ 瀏覽器語言 → English
+// 用法：頁面先放一段 inline script 設定 window.OK_I18N = { key: [9 個語言] }（順序同 LANGS），再放這支程式。
+// 標記：data-i="key"（換 textContent；key 以 ! 結尾換 innerHTML）、data-ia="aria-label:key;title:key2"（換屬性）。
+// 特殊 key：_title（document.title）、_desc（meta description）。
+(function () {
+  var D = window.OK_I18N || {};
+  var LANGS = ['zh-Hant', 'zh-Hans', 'en', 'ja', 'ko', 'es', 'pt', 'hi', 'ms'];
+  var NAMES = { 'zh-Hant': '繁體中文', 'zh-Hans': '简体中文', en: 'English', ja: '日本語', ko: '한국어', es: 'Español', pt: 'Português', hi: 'हिन्दी', ms: 'Bahasa Melayu' };
+  var SHORT = { 'zh-Hant': '繁中', 'zh-Hans': '简中', en: 'EN', ja: '日本語', ko: '한국어', es: 'ES', pt: 'PT', hi: 'हिं', ms: 'MS' };
+  var cur = 'zh-Hant';
+  function norm(t) {
+    t = String(t || '').toLowerCase();
+    if (t.indexOf('zh') === 0) return /hant|-tw|-hk|-mo/.test(t) ? 'zh-Hant' : 'zh-Hans';
+    var b = t.split('-')[0];
+    if (b === 'id') return 'ms';
+    return LANGS.indexOf(b) >= 0 ? b : null;
+  }
+  function detect() {
+    var q = /[?&]lang=([\w-]+)/.exec(location.search);
+    if (q) { var n = LANGS.indexOf(q[1]) >= 0 ? q[1] : norm(q[1]); if (n) return n; }
+    try {
+      var saved = localStorage.getItem('ok-lang') || localStorage.getItem('bk-lang');
+      if (LANGS.indexOf(saved) >= 0) return saved;
+    } catch (e) {}
+    var list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < list.length; i++) { var l = norm(list[i]); if (l) return l; }
+    return 'en';
+  }
+  function t(key, lang) {
+    var v = D[key]; if (!v) return '';
+    var s = v[LANGS.indexOf(lang || cur)];
+    return s == null || s === '' ? (v[2] || v[0]) : s;   // 缺翻譯時退回英文，再退回繁中
+  }
+  function fmt(s, vars) { return String(s).replace(/\{(\w+)\}/g, function (m, k) { return vars && k in vars ? vars[k] : m; }); }
+  function apply(lang) {
+    cur = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i]').forEach(function (el) {
+      var k = el.getAttribute('data-i'), v = t(k);
+      if (!v) return;
+      if (k.slice(-1) === '!') el.innerHTML = v; else el.textContent = v;
+    });
+    document.querySelectorAll('[data-ia]').forEach(function (el) {
+      el.getAttribute('data-ia').split(';').forEach(function (pair) {
+        var p = pair.split(':'); if (p.length === 2 && D[p[1]]) el.setAttribute(p[0].trim(), t(p[1].trim()));
+      });
+    });
+    if (D._title) document.title = t('_title');
+    var md = document.querySelector('meta[name="description"]'); if (md && D._desc) md.setAttribute('content', t('_desc'));
+    var c = document.getElementById('langCur'); if (c) { c.textContent = SHORT[lang]; }
+    var b = document.getElementById('langBtn'); if (b) b.setAttribute('aria-label', 'Language: ' + NAMES[lang]);
+    document.querySelectorAll('#langMenu [role="menuitemradio"]').forEach(function (x) { x.setAttribute('aria-checked', String(x.getAttribute('lang') === lang)); });
+    document.dispatchEvent(new CustomEvent('ok:lang', { detail: lang }));
+  }
+  window.OK = { t: t, fmt: fmt, lang: function () { return cur; }, apply: apply, LANGS: LANGS };
+
+  // 語言選單：地球圖示 + 簡稱，點開是各語言的原文名稱
+  var btn = document.getElementById('langBtn'), menu = document.getElementById('langMenu'), wrap = document.getElementById('lang');
+  if (btn && menu && wrap) {
+    LANGS.forEach(function (l) {
+      var li = document.createElement('li'); li.setAttribute('role', 'none');
+      var x = document.createElement('button');
+      x.type = 'button'; x.setAttribute('role', 'menuitemradio'); x.setAttribute('lang', l); x.textContent = NAMES[l];
+      x.addEventListener('click', function () {
+        try { localStorage.setItem('ok-lang', l); } catch (e) {}
+        close(); apply(l); btn.focus();
+      });
+      li.appendChild(x); menu.appendChild(li);
+    });
+    var open = function () { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); var c = menu.querySelector('[aria-checked="true"]') || menu.querySelector('button'); c.focus(); };
+    var close = function () { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+    btn.addEventListener('click', function () { if (menu.hidden) open(); else close(); });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !wrap.contains(e.target)) close(); });
+    menu.addEventListener('keydown', function (e) {
+      var items = Array.prototype.slice.call(menu.querySelectorAll('button')), i = items.indexOf(document.activeElement);
+      if (e.key === 'Escape') { close(); btn.focus(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    });
+  }
+  apply(detect());
+})();
+</script>
 </body>
 </html>
