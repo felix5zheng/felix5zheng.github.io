@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' blob:; style-src 'unsafe-inline'; script-src 'sha256-Ktm+rRL+sVtmcKaaEhxwtHXV3kiNiwaEhvR9TOGjjUM='; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>我都ok啊 | imokahhhh</title>
 <meta name="description" content="攝影頻道我都ok啊做的 App、相簿和小工具：拍什麼都ok、備份都ok、監看都ok、傳送都ok。">
 <link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
@@ -12,7 +14,7 @@
 <meta name="theme-color" content="#f6f3ee">
 <style>
 /* Hallmark · shape: Index-First · genre: editorial · theme: custom (by request: the okcam gallery's language — warm paper, Apple system type, rounded photos, no blue buttons)
- * nav: a frosted bar, the channel name and three section links · footer: a quiet row of the app's policy links · hero: a short head over the album card
+ * nav: a frosted bar, the channel name and three section links · footer: the contact address alone · hero: a short head over the album card
  * signature: the album card, six real photographs from the 341 · axes: light/system-sans/warm · posture: restrained · contrast: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P3 H5 E4 S4 R5 V3 · weakest: P, a directory page argues little; the real photographs and the apps' own icons carry it */
 /* waive 1: the user asked for Apple system type on these pages; the display face is the system face */
@@ -129,12 +131,12 @@ section { padding-block: var(--space-xl); }
         <span class="go">打開相簿</span>
       </div>
       <div class="strip" aria-hidden="true">
-        <span class="ph" style="background-image:url(/okcam/img/S/01.webp);background-position:0 11.2665%"></span>
-        <span class="ph" style="background-image:url(/okcam/img/S/03.webp);background-position:0 0%"></span>
-        <span class="ph" style="background-image:url(/okcam/img/S/04.webp);background-position:0 32.1221%"></span>
-        <span class="ph" style="background-image:url(/okcam/img/S/14.webp);background-position:0 56.5169%"></span>
-        <span class="ph" style="background-image:url(/okcam/img/S/25.webp);background-position:0 0%"></span>
-        <span class="ph" style="background-image:url(/okcam/img/S/32.webp);background-position:0 33.3238%"></span>
+        <span class="ph" data-s="01" style="background-position:0 11.2665%"></span>
+        <span class="ph" data-s="03" style="background-position:0 0%"></span>
+        <span class="ph" data-s="04" style="background-position:0 32.1221%"></span>
+        <span class="ph" data-s="14" style="background-position:0 56.5169%"></span>
+        <span class="ph" data-s="25" style="background-position:0 0%"></span>
+        <span class="ph" data-s="32" style="background-position:0 33.3238%"></span>
       </div>
     </a>
   </section>
@@ -182,10 +184,18 @@ section { padding-block: var(--space-xl); }
 
 <footer class="foot">
   <div class="container">
-    <a href="/imokahhhh-privacy/">拍什麼都ok 隱私權政策</a>
-    <a href="/imokahhhh-privacy/support.html">拍什麼都ok 支援</a>
-    <a href="mailto:t940176@gmail.com">t940176@gmail.com</a>
+    <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
   </div>
 </footer>
+<script>(() => {
+  if (window.top !== window.self) return;
+  const KA = [103, 233, 43, 212, 120, 125, 42, 143, 228, 105, 14, 212, 227, 89, 96, 52, 49, 183, 172, 126, 49, 99, 241, 48, 180, 157, 23, 118, 201, 80, 171, 243], KM = [169, 39, 176, 76, 11, 28, 181];
+  const key = crypto.subtle.importKey('raw', new Uint8Array(KA.map((v, i) => v ^ KM[i % KM.length])), 'AES-GCM', false, ['decrypt']);
+  const seen = {};
+  const sheet = (id) => seen[id] || (seen[id] = fetch('/okcam/img/S/' + id + '.dat').then(r => r.arrayBuffer())
+    .then(async b => URL.createObjectURL(new Blob([await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, await key, b.slice(12))], { type: 'image/webp' }))));
+  document.querySelectorAll('.strip .ph[data-s]').forEach(el => sheet(el.dataset.s).then(u => { el.style.backgroundImage = 'url(' + u + ')'; }).catch(() => {}));
+  document.querySelector('.strip').addEventListener('contextmenu', e => e.preventDefault());
+})();</script>
 </body>
 </html>
