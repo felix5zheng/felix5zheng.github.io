@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+      integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark justify-content-center">
+      <a class="navbar-brand" href="#">15th 學生會發文轉換器</a>
+    </nav>
+    <div class="container w-75 my-5">
+      <div class="form-group">
+        <label for="title">發文標題</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          placeholder="請輸入活動標題"
+        />
+        
+      </div>
+      <div class="form-group">
+        <label for="content">發文內容</label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="content"
+          placeholder="請輸入發文內容"
+          rows="4"
+        ></textarea>
+        
+      </div>
+      <div class="form-group">
+        <label for="hashtag">Hashtag</label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="hashtag"
+          placeholder="這就是北科學生會、ntut_su、倒數十天...."
+         
+        ></textarea>
+        
+      </div>
+      <button onclick="transform()" type="submit" class="btn btn-primary">
+        轉換
+      </button>
+      <h4 id="Facebook" class="mt-5" align="center"></h4>
+      <h5 id="new_title" ></h5>
+      <h5 id="new_content" ></h5>
+      <h5 id="tag" ></h5>
+      <h5 id="new_hashtag" ></h5>
+
+      <h4 id="Instagram" class="mt-5" align="center"></h4>
+      <h5 id="new_title1" ></h5>
+      <h5 id="new_content1" ></h5>
+      <h5 id="tag1" ></h5>
+      <h5 id="tag2" ></h5>
+      <h5 id="new_hashtag1" ></h5>
+
+      <!-- <p id="new_content" class="p-3" style="word-break: break-all;"></p>
+    </div>
+    <!-- Optional JavaScript -->
+    <script>
+      function transform() {
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const hashtag = document.getElementById('hashtag').value;
+
+        let new_title = '【學生會公告－' + title + '】';
+        let new_title1 = '【 ' + title + '】';
+        let new_content = content ;
+        let new_content1 = content ;
+        let new_hashtag = hashtag ;
+
+        document.getElementById('new_title').innerText = new_title;
+        document.getElementById('new_content').innerText = new_content;
+        document.getElementById('tag').innerText = '#國立臺北科技大學學生自治會';
+        document.getElementById('Facebook').innerText = '------------- Facebook的貼文從以下複製 -------------';
+        document.getElementById('Instagram').innerText = '------------- Instagram的貼文從以下複製 -------------';
+        document.getElementById('new_title1').innerText = new_title1;
+        document.getElementById('new_content1').innerText = new_content1.replace(/\n\n/g, '\n-\n');
+        document.getElementById('tag1').innerText = '#北科學生會';
+        document.getElementById('tag2').innerText = '#ntut_su';
+        document.getElementById('new_hashtag').innerText = '#' + new_hashtag.replace(/、/g, '\n#');
+        document.getElementById('new_hashtag1').innerText = '#' + new_hashtag.replace(/、/g, '\n#');
+      }
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+      integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
