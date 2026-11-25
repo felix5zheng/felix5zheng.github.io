@@ -16,11 +16,12 @@
 <style>
 /* Hallmark · shape: Index-First · genre: editorial · theme: custom (imokahhhh style, by request) · v2.0.0
  * nav: a frosted bar, the channel name, two section links and the language button · footer: the contact address alone
- * hero: Stage, the head and two actions on columns 1 to 5, a wall of twelve real album photographs on 6 to 12
+ * hero: Stage, the head and one sentence on columns 1 to 5 (no buttons, by request), a wall of twelve real album photographs on 6 to 12
  * signature: the photo wall, the channel's own photographs at the first screen · sections: hero, work (album + photobook), apps, footer
  * axes: light/system-sans/warm · posture: restrained, still · contrast: pass */
 /* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V4 · weakest: E, the photobook has no cover yet, so its card carries a labelled slot */
 /* waive 1: the user asked for Apple system type on these pages; the display face is the system face */
+/* waive 44b: the user asked for no buttons in the hero; the photo wall itself opens the album, and the work section links the photobook */
 /* waive 26b: the page has no disabled controls; nothing can be disabled */
 /* waive 29: the gallery and the shop use the same frosted bar; kept so the site reads as one */
 :root {
@@ -61,13 +62,6 @@ a { color: inherit; }
 .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl); align-items: center; padding-block: var(--space-2xl); }
 .hero h1 { font-size: var(--text-display); line-height: 1.02; letter-spacing: -0.024em; }
 .hero p { margin-top: var(--space-lg); font-size: var(--text-lg); color: var(--color-ink-2); max-width: 28ch; }
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-xl); margin-top: var(--space-xl); }
-.btn { display: inline-flex; align-items: center; height: 44px; padding: 0 var(--space-lg); border: 1px solid var(--color-ink); border-radius: var(--radius-pill); font-size: var(--text-sm); color: var(--color-ink); text-decoration: none; white-space: nowrap;
-  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease); }
-.btn:hover { background: var(--color-ink); color: var(--color-paper); }
-.btn:active { opacity: 0.85; }
-.link { font-size: var(--text-sm); color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-hairline); text-underline-offset: 0.25em; border-radius: 3px; transition: text-decoration-color var(--dur) var(--ease); }
-.link:hover { text-decoration-color: var(--color-ink); }
 .wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-sm); height: var(--wall-h); min-height: 420px; overflow: hidden; border-radius: var(--radius-xl); text-decoration: none; }
 .wall .col { display: flex; flex-direction: column; gap: var(--space-sm); min-width: 0; }
 .wall .col:nth-child(2) { margin-top: -96px; }
@@ -134,7 +128,7 @@ section { padding-block: var(--section-gap) 0; }
   .app .icon { width: 60px; height: 60px; border-radius: 13px; }
   .foot { margin-top: var(--space-2xl); }
 }
-@media (hover: none) { .work:hover, .app:hover { transform: none; box-shadow: var(--ring); } .work:hover { box-shadow: none; } .btn:hover { background: transparent; color: var(--color-ink); } }
+@media (hover: none) { .work:hover, .app:hover { transform: none; box-shadow: var(--ring); } .work:hover { box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } .work:hover, .app:hover { transform: none; } }
 /* ok-i18n:start */
 /* ok-i18n：語言選單與各語言字體。顏色、圓角、陰影全部走頁面自己的 token。 */
@@ -192,10 +186,6 @@ section { padding-block: var(--section-gap) 0; }
     <div>
       <h1 data-i="brand">我都ok啊</h1>
       <p data-i="intro">攝影頻道做的相簿、攝影集和 App。</p>
-      <div class="actions">
-        <a class="btn" href="/okcam/" data-i="album_go">打開相簿</a>
-        <a class="link" href="/photobook/" data-i="book_go">看攝影集</a>
-      </div>
     </div>
     <a class="wall" href="/okcam/" aria-label="相簿裡的照片" data-ia="aria-label:wall_label">
       <div class="col"><span class="ph" data-s="01" style="aspect-ratio:520/693;background-position:0 100.0%"></span><span class="ph" data-s="17" style="aspect-ratio:520/693;background-position:0 88.4903%"></span><span class="ph" data-s="24" style="aspect-ratio:520/693;background-position:0 11.1111%"></span><span class="ph" data-s="08" style="aspect-ratio:520/693;background-position:0 52.5598%"></span></div>
