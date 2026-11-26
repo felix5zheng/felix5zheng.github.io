@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src blob: data:; style-src 'unsafe-inline'; script-src 'sha256-BqhP9jXxDfEj3V9fcHAjmGnvGIL4goS1R9G3XcXcXPE='; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src blob: data:; style-src 'unsafe-inline'; script-src 'sha256-no5zO1jh5elC/LcXUzpygObVLwTpgU2v3WQWSc3vqls='; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f7f5f1">
@@ -33,6 +33,8 @@
   --color-demo-b: oklch(66% 0.04 150);
   --color-demo-c: oklch(70% 0.04 235);
   --color-demo-d: oklch(62% 0.05 28);
+  --color-demo-e: oklch(58% 0.035 300);
+  --color-demo-f: oklch(78% 0.05 95);
   --color-demo-ink: oklch(99% 0.004 82);
   --nav-glass: oklch(97.2% 0.006 82 / 0.8);
   --ring: 0 0 0 1px oklch(19% 0.024 52 / 0.05);
@@ -130,23 +132,21 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
 .ph.demo[data-c="3"] { background-color: var(--color-demo-d); }
 .ph.low::before { content: "解析度偏低"; position: absolute; left: var(--space-xs); top: var(--space-xs); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-pill); background: var(--color-ink); color: var(--color-paper); font-size: var(--text-xs); font-weight: 500; }
 
-/* rules */
-.rules { padding-block: var(--space-2xl) var(--space-3xl); }
-.rules summary { display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; color: var(--color-ink); list-style: none; text-decoration: underline; text-decoration-color: var(--color-hairline); text-underline-offset: 0.2em; transition: text-decoration-color var(--dur) var(--ease); }
-.rules summary::-webkit-details-marker { display: none; }
-.rules summary:hover { text-decoration-color: var(--color-ink); }
-.rules-body { display: grid; gap: var(--space-xl); padding-top: var(--space-lg); }
-.rules-facts { display: grid; gap: var(--space-xs); padding: 0; margin: 0; list-style: none; max-width: 46em; font-size: var(--text-sm); }
-.rules-facts li { padding-left: var(--space-md); border-left: 1px solid var(--color-hairline); }
-.rules-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
-.rules-table th { text-align: left; font-weight: 600; color: var(--color-ink); padding: var(--space-xs) var(--space-sm) var(--space-xs) 0; border-bottom: 1px solid var(--color-hairline); white-space: nowrap; }
-.rules-table td { padding: var(--space-sm) var(--space-sm) var(--space-sm) 0; border-bottom: 1px solid var(--color-hairline); vertical-align: top; }
-.rules-wrap { overflow-x: auto; }
-.minis { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-md); }
-.mini { display: grid; gap: var(--space-2xs); justify-items: start; }
-.mini-sheet { position: relative; width: 132px; aspect-ratio: 2 / 1; background: var(--color-sheet); box-shadow: var(--ring); }
-.mini-sheet > i { position: absolute; background: var(--color-muted); opacity: 0.55; }
-.mini-pct { font-size: var(--text-xs); color: var(--color-muted); }
+/* 範例 */
+.examples { padding-block: var(--space-xs) var(--space-3xl); }
+.examples h2 { font-size: var(--text-xl); margin-bottom: var(--space-lg); }
+.ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--space-xl) var(--space-lg); }
+.ex { min-width: 0; display: grid; gap: var(--space-xs); margin: 0; }
+.ex-sheet { position: relative; aspect-ratio: 2 / 1; background: var(--color-sheet); box-shadow: var(--shadow-sheet); overflow: hidden; }
+.ex-sheet::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--color-hairline); opacity: 0.6; }
+.ex-sheet > i { position: absolute; background-size: 100% auto; background-repeat: no-repeat; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.ex-sheet > i[data-c="0"] { background-color: var(--color-demo-a); }
+.ex-sheet > i[data-c="1"] { background-color: var(--color-demo-b); }
+.ex-sheet > i[data-c="2"] { background-color: var(--color-demo-c); }
+.ex-sheet > i[data-c="3"] { background-color: var(--color-demo-d); }
+.ex-sheet > i[data-c="4"] { background-color: var(--color-demo-e); }
+.ex-sheet > i[data-c="5"] { background-color: var(--color-demo-f); }
+.ex figcaption { font-size: var(--text-xs); color: var(--color-muted); }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
 @media (hover: none) { .ph:hover { opacity: 1; } }
@@ -216,25 +216,9 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
     </div>
   </section>
 
-  <section class="rules container" aria-label="排版規則">
-    <details id="rules">
-      <summary>這套排法是怎麼來的</summary>
-      <div class="rules-body">
-        <ul class="rules-facts">
-          <li>來源是你自己排過的相本：2024 年 7 月到 2026 年 11 月共 132 本、1,784 個跨頁，逐張量出每張照片的位置。更早的相本圖檔在印刷網站上已經讀不到，沒有算進來。</li>
-          <li>照片一律不裁切，維持橫 3:2、直 2:3 原比例；白底；照片之間留 1 公釐細縫。</li>
-          <li>同一組照片排成等高的一排，兩張橫的可以上下疊成一格，整組放大到剛好塞滿跨頁後置中。四分之三的跨頁是這種排法。</li>
-          <li>另外四分之一是左右頁各排一組，離裁切邊 11 公釐；直幅單張多半靠外側，疊起來的橫幅置中。</li>
-          <li>132 本裡有 98 本是 24 頁：首頁、11 個跨頁、末頁，跨頁裡大約 29 張照片，平均一個跨頁 2.6 張。所以照片數量合適時預設排 24 頁。相鄰兩個跨頁很少用同一種版型。</li>
-        </ul>
-        <div class="rules-wrap">
-          <table class="rules-table">
-            <thead><tr><th scope="col">這個跨頁有</th><th scope="col">出現次數</th><th scope="col">會排成（百分比是你過去的選擇）</th></tr></thead>
-            <tbody id="rules-rows"></tbody>
-          </table>
-        </div>
-      </div>
-    </details>
+  <section id="examples" class="examples container" aria-label="範例">
+    <h2>範例</h2>
+    <div class="ex-grid" id="ex-grid"></div>
   </section>
 </main>
 <script>
@@ -266,7 +250,6 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
     L6P0: [{ w: 2, S: ['C', 'C', 'C'] }]
   };
   const COMP_W = { L1P1: 241, L0P2: 225, L1P2: 204, L0P3: 190, L2P0: 169, L4P0: 120, L3P0: 102, L2P1: 69, L0P4: 39, L2P2: 23, L1P0: 21, L8P0: 7, L2P3: 4, L4P2: 3, L3P1: 2, L6P0: 2 };
-  const RULE_ORDER = ['L1P1', 'L0P2', 'L1P2', 'L0P3', 'L2P0', 'L4P0', 'L3P0', 'L2P1', 'L0P4', 'L2P2', 'L1P0'];
   const PER_SPREAD = 2.64;
   const PRINT_WHITE = '#ffffff';   // 輸出的紙是純白，跟量到的檔案一致
   const MODES = ['A', 'B', 'C'];
@@ -377,7 +360,7 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
     const list = Array.from(files).filter((f) => /^image\//.test(f.type) || /\.(jpe?g|png|webp)$/i.test(f.name));
     if (!list.length) { if (!S.photos.length) return; setStatus('沒有可以用的圖檔。', 'error'); return; }
     if (S.demo) resetAll();
-    $('empty').hidden = true; $('work').hidden = false; setBusy(true);
+    $('empty').hidden = true; $('examples').hidden = true; $('work').hidden = false; setBusy(true);
     let bad = 0;
     for (let i = 0; i < list.length; i++) {
       const f = list[i];
@@ -403,7 +386,7 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
       const L = rnd() < 0.48, ph = { id: 'p' + (++uid), file: null, name: '色塊 ' + (i + 1), w: L ? 6000 : 4000, h: L ? 4000 : 6000, time: i, url: '', tone: i % 4, no: i + 1 };
       ph.ar = ph.w / ph.h; ph.cls = L ? 'L' : 'P'; S.photos.push(ph); S.byId.set(ph.id, ph);
     }
-    $('empty').hidden = true; $('work').hidden = false; autoLayout();
+    $('empty').hidden = true; $('examples').hidden = true; $('work').hidden = false; autoLayout();
   }
   function resetAll() {
     for (const p of S.photos) if (p.url) URL.revokeObjectURL(p.url);
@@ -591,7 +574,7 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
   let clearTimer = 0;
   $('clear').addEventListener('click', (e) => {
     const b = e.currentTarget;
-    if (b.classList.contains('btn--armed')) { clearTimeout(clearTimer); b.classList.remove('btn--armed'); b.textContent = '清空'; resetAll(); $('work').hidden = true; $('empty').hidden = false; $('count').textContent = ''; $('sheets').textContent = ''; return; }
+    if (b.classList.contains('btn--armed')) { clearTimeout(clearTimer); b.classList.remove('btn--armed'); b.textContent = '清空'; resetAll(); $('work').hidden = true; $('empty').hidden = false; $('examples').hidden = false; $('count').textContent = ''; $('sheets').textContent = ''; return; }
     b.classList.add('btn--armed'); b.textContent = '確定清空？';
     clearTimer = setTimeout(() => { b.classList.remove('btn--armed'); b.textContent = '清空'; }, 3500);
   });
@@ -675,23 +658,38 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
   if (canPickDir() && !inArtifact()) $('how-field').hidden = false;
 
   // ---------------------------------------------------------------------
-  // 規則表：用同一套版面計算畫小圖
-  function fillRules() {
-    const body = $('rules-rows'), std = (cls) => ({ cls, ar: cls === 'L' ? 1.5 : 2 / 3 });
-    const total = sum(Object.values(COMP_W), (v) => v);
-    for (const key of RULE_ORDER) {
-      const m = /^L(\d+)P(\d+)$/.exec(key), photos = []; for (let i = 0; i < +m[1]; i++) photos.push(std('L')); for (let i = 0; i < +m[2]; i++) photos.push(std('P'));
-      const tr = el('tr'), th = el('td', '', mixText(photos) + ' 張'), n = el('td', 'num', COMP_W[key] + ' 次，佔 ' + Math.round(COMP_W[key] / total * 100) + '%'), td = el('td'), minis = el('div', 'minis');
-      const all = sum(TPL[key], (t) => t.w);
-      for (const t of TPL[key]) {
-        const mini = el('div', 'mini'), sheet = el('div', 'mini-sheet');
-        for (const r of layoutSpread(photos, t, 'A')) { const i = el('i'); i.style.left = (r.x / 8000 * 100) + '%'; i.style.top = (r.y / 4000 * 100) + '%'; i.style.width = (r.w / 8000 * 100) + '%'; i.style.height = (r.h / 4000 * 100) + '%'; sheet.append(i); }
-        mini.append(sheet, el('span', 'mini-pct num', Math.round(t.w / all * 100) + '%')); minis.append(mini);
-      }
-      td.append(minis); tr.append(th, n, td); body.append(tr);
+  // 範例：用同一套版面計算畫出各種排法
+  function fillExamples() {
+    const list = [
+      { c: 'LP', t: { S: ['L', 'P'] } }, { c: 'PPP', t: { PG: [['P'], ['P', 'P']] }, m: 'A' }, { c: 'LLLL', t: { S: ['C', 'C'] } }, { c: 'PP', t: { S: ['P', 'P'] } },
+      { c: 'LLL', t: { S: ['L', 'C'] } }, { c: 'PL', t: { PG: [['P'], ['L']] }, m: 'A' }, { c: 'PPPP', t: { S: ['P', 'P', 'P', 'P'] } }, { c: 'LL', t: { S: ['L', 'L'] } },
+      { c: 'LLLL', t: { PG: [['C'], ['C']] }, m: 'A' }, { c: 'PPL', t: { S: ['P', 'P', 'L'] } }, { c: 'PP', t: { PG: [['P'], ['P']] }, m: 'B' }, { c: 'LLP', t: { S: ['C', 'P'] } },
+      { c: 'PPP', t: { S: ['P', 'P', 'P'] } }, { c: 'PPLL', t: { PG: [['P', 'P'], ['C']] }, m: 'A' }, { c: 'L', t: { S: ['L'] } }, { c: 'LLLLLLLL', t: { S: ['C', 'C', 'C', 'C'] } }
+    ];
+    // 範例照片取自「拍什麼都ok」相簿（imokahhhh.com/okcam），讀相簿同一批加密縮圖：[拼圖編號, 位置百分比, 長寬比]
+    const EX_L = [["02", 0.0, 1.7808], ["02", 17.2233, 1.3333], ["07", 44.4607, 1.3333], ["11", 22.2222, 1.3648], ["21", 0.0, 1.3333], ["22", 11.4432, 1.3333], ["27", 44.0588, 1.3333], ["28", 76.6072, 1.5029]];
+    const EX_P = [["02", 5.3914, 0.7504], ["07", 0.0, 0.8], ["11", 0.0, 0.7504], ["21", 6.5723, 0.7504], ["22", 0.0, 0.7504], ["27", 0.0, 0.7504], ["28", 0.0, 0.7504], ["02", 25.4441, 0.7376], ["07", 11.1397, 0.7504], ["11", 11.6962, 0.7504], ["21", 18.2508, 0.7504], ["22", 18.825, 0.7504], ["27", 11.7637, 0.7504], ["28", 10.9548, 0.7504], ["02", 38.1022, 0.8], ["07", 23.0163, 0.7504], ["11", 29.8228, 0.7504], ["21", 29.9292, 0.7504], ["22", 30.8708, 0.7504], ["27", 23.3569, 0.8], ["28", 21.9096, 0.7504], ["02", 50.4062, 0.7504], ["07", 34.8929, 0.7504], ["11", 41.519, 0.7504], ["21", 41.6077, 0.7504], ["22", 51.9555, 0.7504], ["27", 34.5612, 0.7504], ["28", 32.8644, 0.7504]];
+    const host = $('ex-grid'); let n = 0, li = 0, pi = 0;
+    for (const ex of list) {
+      const photos = Array.from(ex.c, (ch) => { const s = ch === 'L' ? EX_L[li++ % EX_L.length] : EX_P[pi++ % EX_P.length]; return { cls: ch, ar: s[2], s }; });
+      const fig = el('figure', 'ex'), sheet = el('div', 'ex-sheet');
+      for (const r of layoutSpread(photos, ex.t, ex.m || 'A')) { const i = el('i'); i.dataset.c = (n++ * 5 + 2) % 6; i.dataset.s = r.ph.s[0]; i.style.backgroundPosition = '0 ' + r.ph.s[1] + '%'; i.style.left = (r.x / 8000 * 100) + '%'; i.style.top = (r.y / 4000 * 100) + '%'; i.style.width = (r.w / 8000 * 100) + '%'; i.style.height = (r.h / 4000 * 100) + '%'; sheet.append(i); }
+      fig.append(sheet, el('figcaption', '', mixText(photos))); host.append(fig);
+    }
+    host.addEventListener('contextmenu', (e) => e.preventDefault());
+    host.addEventListener('dragstart', (e) => e.preventDefault());
+    // 解密相簿縮圖；讀不到就留著色塊
+    const KA = [103, 233, 43, 212, 120, 125, 42, 143, 228, 105, 14, 212, 227, 89, 96, 52, 49, 183, 172, 126, 49, 99, 241, 48, 180, 157, 23, 118, 201, 80, 171, 243], KM = [169, 39, 176, 76, 11, 28, 181];
+    if (!window.crypto || !crypto.subtle || location.protocol !== 'https:') return;
+    const key = crypto.subtle.importKey('raw', new Uint8Array(KA.map((v, i) => v ^ KM[i % KM.length])), 'AES-GCM', false, ['decrypt']);
+    for (const id of new Set(Array.from(host.querySelectorAll('i[data-s]'), (i) => i.dataset.s))) {
+      fetch('/okcam/img/S/' + id + '.dat').then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(async (b) => URL.createObjectURL(new Blob([await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, await key, b.slice(12))], { type: 'image/webp' })))
+        .then((u) => { for (const i of host.querySelectorAll('i[data-s="' + id + '"]')) i.style.backgroundImage = 'url("' + u + '")'; })
+        .catch(() => {});
     }
   }
-  fillRules();
+  fillExamples();
   fillPages(24);
 })();
 </script>
