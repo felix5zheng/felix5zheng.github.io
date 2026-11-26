@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'sha256-EDkR7L80sxH1UF7SYJ6cKrCLeAdmYhOqM8v54/Jg4rw=' 'sha256-D3caKY73TRkcxqV2fgw47Yta+Zq5LjPKTcOZ6GLD+VQ='; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>購物須知與隱私權政策 | 我都ok啊</title>
+<meta name="description" content="我都ok啊攝影集的退換貨、退款與個人資料保護說明。">
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/icons/favicon-64.png" sizes="64x64">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#f6f3ee">
+<style>
+/* Hallmark · shape: Long Document (one column of legal text, a contents list, headed sections) · genre: editorial · theme: custom (imokahhhh style, by request)
+ * nav: frosted bar, the book's name and a link back to the photobook plus the language button · footer: studio name, tax ID and the contact address · hero: title, last-updated date, the basis note
+ * signature: the seller card set first, because the law wants who you buy from up front · axes: light/system-sans/warm · posture: quiet · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H3 E4 S4 R4 V3 · weakest: V, a legal page carries no pictures by design */
+/* waive 1: the user asked for Apple system type on these pages; the display face is the system face */
+/* waive 26b: the page has no form controls; the language button is the shared ok-i18n control and nothing on the page can be disabled */
+/* waive 29: the frosted bar is the site's shared navigation, kept so every imokahhhh.com page reads as one site */
+/* waive 58: a terms and privacy page must state every condition in full (Consumer Protection Act, Personal Data Protection Act art. 8); words are cut per item, never by dropping a condition */
+:root {
+  color-scheme: light;
+  --color-paper: oklch(97.2% 0.006 82); --color-band: oklch(93.6% 0.011 76); --color-card: oklch(99% 0.004 82); --color-tile: oklch(90.5% 0.013 74);
+  --color-ink: oklch(19% 0.024 52); --color-ink-2: oklch(31% 0.018 54); --color-muted: oklch(46% 0.014 60); --color-hairline: oklch(83% 0.011 70);
+  --color-focus: var(--color-ink); --nav-glass: oklch(97.2% 0.006 82 / 0.8); --color-error: oklch(48% 0.15 30);
+  --veil: oklch(16% 0.02 52 / 0.5);
+  --ring: 0 0 0 1px oklch(19% 0.024 52 / 0.05);
+  --shadow-lift: 0 0 0 1px oklch(19% 0.024 52 / 0.06), 0 14px 30px -18px oklch(19% 0.024 52 / 0.35);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang TC", "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
+  --text-xs: 12px; --text-sm: 14px; --text-md: 17px; --text-lg: 21px; --text-xl: 28px; --text-2xl: 40px; --text-display: clamp(44px, 7vw, 72px);
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px; --space-xl: 28px; --space-2xl: 52px; --space-3xl: 90px;
+  --radius-xl: 28px; --radius-lg: 20px; --radius-md: 14px; --radius-pill: 9999px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1); --dur: 240ms; --dur-long: 480ms;
+  --container: 1200px; --gutter: 40px; --bar-h: 52px;
+}
+@media (max-width: 60rem) { :root { --gutter: 22px; } }
+@media (max-width: 40rem) { :root { --gutter: 16px; --bar-h: 48px; } }
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+body { margin: 0; background: var(--color-paper); color: var(--color-ink-2); font-family: var(--font); font-size: var(--text-md); line-height: 1.6; letter-spacing: -0.016em; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); color: var(--color-ink); font-weight: 600; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+a { color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-hairline); text-underline-offset: 0.25em; transition: text-decoration-color var(--dur) var(--ease); }
+a:hover { text-decoration-color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; transition: none; }
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+
+.bar { position: sticky; top: 0; z-index: 30; background: var(--nav-glass); -webkit-backdrop-filter: saturate(160%) blur(20px); backdrop-filter: saturate(160%) blur(20px); box-shadow: 0 1px 0 var(--color-hairline); }
+.bar-in { display: flex; align-items: center; gap: var(--space-lg); min-height: var(--bar-h); }
+.brand { display: flex; align-items: baseline; gap: var(--space-sm); text-decoration: none; color: var(--color-ink); font-family: var(--font-display); font-size: 19px; font-weight: 600; letter-spacing: 0.012em; white-space: nowrap; }
+.brand small { font-size: var(--text-xs); font-weight: 400; letter-spacing: 0; color: var(--color-muted); }
+.back { margin-left: auto; font-size: var(--text-xs); color: var(--color-ink-2); text-decoration: none; padding-block: var(--space-sm); white-space: nowrap; }
+.back:hover { color: var(--color-ink); text-decoration: underline; }
+@media (max-width: 40rem) { .back { display: none; } .bar-in > .lang { margin-left: auto; } }
+
+.doc { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3xl); max-width: 46rem; padding-block: var(--space-3xl) var(--space-2xl); }
+@media (max-width: 40rem) { .doc { padding-top: var(--space-2xl); } }
+.doc-head h1 { font-size: var(--text-2xl); line-height: 1.1; letter-spacing: -0.022em; }
+@media (max-width: 40rem) { .doc-head h1 { font-size: var(--text-xl); } }
+.updated { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+.basis { margin-top: var(--space-lg); font-size: var(--text-sm); color: var(--color-ink-2); }
+.toc { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-xl); margin-top: var(--space-xl); font-size: var(--text-sm); }
+.card { background: var(--color-band); border-radius: var(--radius-xl); padding: var(--space-xl); }
+@media (max-width: 40rem) { .card { border-radius: var(--radius-lg); padding: var(--space-lg); } }
+.card h2 { font-size: var(--text-lg); }
+.card dl { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); margin: var(--space-lg) 0 0; }
+.card dl > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--space-md); font-size: var(--text-sm); }
+@media (max-width: 40rem) { .card dl > div { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+.card dt { color: var(--color-muted); }
+.card dd { margin: 0; color: var(--color-ink); overflow-wrap: anywhere; }
+.sec > h2 { font-size: var(--text-xl); letter-spacing: -0.02em; padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-hairline); }
+.items { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); margin-top: var(--space-xl); }
+.item h3 { font-size: var(--text-md); }
+.item p { margin-top: var(--space-2xs); }
+.contact p { margin-top: var(--space-xs); }
+
+.foot { background: var(--color-band); border-top: 1px solid var(--color-hairline); }
+.foot .container { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-xs) var(--space-xl); padding-block: var(--space-lg) var(--space-xl); font-size: var(--text-xs); color: var(--color-muted); }
+.foot a { color: var(--color-ink-2); text-decoration: none; }
+.foot a:hover { color: var(--color-ink); text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { a { transition: none; } }
+/* ok-i18n:start */
+/* ok-i18n：語言選單與各語言字體。顏色、圓角、陰影全部走頁面自己的 token。 */
+:root {
+  --font-lang-tc: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+  --font-lang-sc: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+  --font-lang-ja: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --font-lang-ko: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-lang-hi: -apple-system, BlinkMacSystemFont, "Kohinoor Devanagari", "Noto Sans Devanagari", sans-serif;
+}
+:root:lang(zh-Hans) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", "Noto Sans SC", "Microsoft YaHei", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+:root:lang(ja) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; }
+:root:lang(ko) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+:root:lang(hi) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Kohinoor Devanagari", "Noto Sans Devanagari", "Nirmala UI", sans-serif; --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Kohinoor Devanagari", "Noto Sans Devanagari", "Nirmala UI", sans-serif; }
+:root:lang(hi) body, :root:lang(ko) body, :root:lang(ja) body { letter-spacing: 0; }
+:root:lang(en), :root:lang(es), :root:lang(pt), :root:lang(ms), :root:lang(hi) { word-break: normal; overflow-wrap: break-word; }
+
+.lang { position: relative; flex: none; }
+.lang-btn { display: inline-flex; align-items: center; gap: var(--space-xs, 8px); height: 32px; padding: 0 var(--space-sm, 12px) 0 var(--space-xs, 8px); font: inherit; font-size: var(--text-xs, 12px); color: var(--color-ink-2); background: transparent; border: 1px solid var(--color-hairline); border-radius: var(--radius-pill, 9999px); cursor: pointer; white-space: nowrap; transition: color var(--dur, 240ms) var(--ease), border-color var(--dur, 240ms) var(--ease), background-color var(--dur, 240ms) var(--ease); }
+.lang-btn svg { width: 14px; height: 14px; flex: none; }
+.lang-btn:hover, .lang-btn[aria-expanded="true"] { color: var(--color-ink); border-color: var(--color-ink); }
+.lang-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; transition: none; }
+.lang-btn:active { background: var(--color-band); }
+.lang-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; min-width: 176px; max-height: min(70dvh, 420px); overflow-y: auto; margin: 0; padding: var(--space-xs, 8px); list-style: none; background: var(--color-card); border-radius: var(--radius-md, 14px); box-shadow: var(--shadow-lift); }
+.lang-menu[hidden] { display: none; }
+.lang-menu button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: var(--space-md, 16px); padding: var(--space-xs, 8px) var(--space-sm, 12px); font: inherit; font-size: var(--text-sm, 14px); line-height: 1.35; letter-spacing: 0; color: var(--color-ink); background: transparent; border: 0; border-radius: 9px; cursor: pointer; text-align: left; }
+.lang-menu button[lang="zh-Hant"] { font-family: var(--font-lang-tc); }
+.lang-menu button[lang="zh-Hans"] { font-family: var(--font-lang-sc); }
+.lang-menu button[lang="ja"] { font-family: var(--font-lang-ja); }
+.lang-menu button[lang="ko"] { font-family: var(--font-lang-ko); }
+.lang-menu button[lang="hi"] { font-family: var(--font-lang-hi); }
+.lang-menu button:hover { background: var(--color-band); }
+.lang-menu button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -2px; }
+.lang-menu button[aria-checked="true"]::after { content: ""; width: 9px; height: 5px; transform-origin: center; border-left: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(-45deg); }
+@media (prefers-reduced-motion: reduce) { .lang-btn { transition: none; } }
+/* ok-i18n:end */
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="container bar-in">
+    <a class="brand" href="/photobook/"><span data-i="brand">我都ok啊</span><small data-i="brand_sub">攝影集</small></a>
+    <a class="back" href="/photobook/" data-i="back">回攝影集</a>
+    <div class="lang" id="lang">
+  <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" aria-label="Language"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="8" cy="8" r="6.3"/><path d="M1.7 8h12.6M8 1.7c1.8 1.7 2.7 3.8 2.7 6.3S9.8 12.6 8 14.3M8 1.7C6.2 3.4 5.3 5.5 5.3 8s.9 4.6 2.7 6.3"/></svg><span id="langCur">繁中</span></button>
+  <ul class="lang-menu" id="langMenu" role="menu" aria-label="Language" hidden></ul>
+</div>
+  </div>
+</header>
+
+<main class="container doc">
+  <div class="doc-head">
+    <h1 data-i="h1">購物須知與隱私權政策</h1>
+    <p class="updated" data-i="updated">最後更新：2026 年 11 月 26 日</p>
+    <p class="basis" data-i="basis">本頁依台灣《消費者保護法》與《個人資料保護法》撰寫。中文版與其他語言版本不一致時，以繁體中文版為準。</p>
+    <nav class="toc" aria-label="本頁內容" data-ia="aria-label:toc_label"><a href="#seller" data-i="seller_h">賣家資訊</a><a href="#returns" data-i="terms_h">購物須知</a><a href="#privacy" data-i="privacy_h">隱私權政策</a><a href="#contact" data-i="contact_h">聯絡我們</a></nav>
+  </div>
+
+  <section class="card" id="seller" aria-labelledby="seller-h">
+    <h2 id="seller-h" data-i="seller_h">賣家資訊</h2>
+    <dl>
+        <div><dt data-i="s_name_k">商家名稱</dt><dd data-i="s_name_v">破渡攝影工作室</dd></div>
+        <div><dt data-i="s_tax_k">統一編號</dt><dd>02269235</dd></div>
+        <div><dt data-i="s_rep_k">負責人</dt><dd data-i="s_rep_v">張道慈</dd></div>
+        <div><dt data-i="s_addr_k">地址</dt><dd data-i="s_addr_v">新北市新店區三民路117巷6弄10號</dd></div>
+        <div><dt data-i="s_tel_k">電話</dt><dd><a href="tel:+886935285037">0935-285-037</a></dd></div>
+        <div><dt data-i="s_mail_k">電子郵件</dt><dd><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="sec" id="returns" aria-labelledby="terms-h">
+    <h2 id="terms-h" data-i="terms_h">購物須知</h2>
+    <div class="items">
+      <div class="item">
+        <h3 data-i="t_goods_h">商品與價格</h3>
+        <p data-i="t_goods">商品頁上的說明、照片與價格都是契約的一部分。標示的價格已含稅、已含運費，結帳時不會再加其他費用。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_pay_h">付款</h3>
+        <p data-i="t_pay">可用信用卡或 Apple Pay，由綠界科技處理。卡號只在綠界的付款頁輸入，我們看不到，也不會保存。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_ship_h">寄送</h3>
+        <p data-i="t_ship">免運費，只寄台灣（含離島）。本島以中華郵政宅配寄出，離島以郵局包裹寄出。寄出後會寄信通知追蹤號碼。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_cancel_h">取消訂單</h3>
+        <p data-i="t_cancel">還沒出貨前，寫信告訴我們訂單編號就能取消，款項全額退回。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_cool_h">7 天內免理由退貨</h3>
+        <p data-i="t_cool">依《消費者保護法》第 19 條，收到商品的隔天起 7 天內，可以不說明理由退貨，不需負擔任何費用，寄回運費由我們出。為了檢查而拆封、翻閱，不影響退貨權利。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_how_h">怎麼退貨</h3>
+        <p data-i="t_how">寫信到下方的電子郵件，附上訂單編號與收件人姓名。我們會回信告訴你寄回的方式，寄回運費由我們負擔。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_refund_h">退款</h3>
+        <p data-i="t_refund">收到退回的商品或你的退貨通知後，15 天內退款，一律退回原本付款的信用卡（Apple Pay 也退回綁定的卡）。實際入帳時間依發卡銀行而定。電子發票由我們作廢或折讓，不需要你處理。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="t_defect_h">破損、瑕疵或寄錯</h3>
+        <p data-i="t_defect">收到時若有破損、印刷瑕疵、缺頁或寄錯，請盡快寫信並附照片，建議在到貨 7 天內。你可以選擇換新或全額退款，來回運費都由我們負擔；沒有庫存時改為全額退款。超過 7 天，你仍可依《民法》主張瑕疵擔保的權利。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="privacy" aria-labelledby="privacy-h">
+    <h2 id="privacy-h" data-i="privacy_h">隱私權政策</h2>
+    <div class="items">
+      <div class="item">
+        <h3 data-i="p_who_h">誰在蒐集你的資料</h3>
+        <p data-i="p_who">破渡攝影工作室，聯絡方式見上方賣家資訊。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_why_h">為什麼蒐集</h3>
+        <p data-i="p_why">只用來處理你的訂單：付款、開立電子發票、寄送、通知出貨、客服與退換貨。我們不寄行銷信，也不出售或出租你的資料。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_what_h">蒐集哪些資料</h3>
+        <p data-i="p_what">姓名、手機、電子郵件、寄送地址、發票資訊（手機條碼、會員載具、捐贈碼、統一編號與抬頭）、備註，以及付款結果（不含卡號）。為了防止濫用，你的 IP 位址會經過加鹽雜湊後才保存，無法還原成原本的 IP。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_share_h">會交給誰</h3>
+        <p data-i="p_share">只交給完成訂單所需的服務商：綠界科技（金流、電子發票、物流）、中華郵政（寄送）、Resend（寄送訂單通知信）、Cloudflare（網站後端、資料庫與防機器人驗證）。網站頁面放在 GitHub Pages。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_where_h">在哪裡處理</h3>
+        <p data-i="p_where">台灣，以及上述服務商的伺服器所在地，可能包括日本、美國等台灣以外的地區。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_keep_h">保存多久</h3>
+        <p data-i="p_keep">成立的訂單與發票資料依《商業會計法》保存 5 年，期滿後刪除可辨識你的資料。沒有付款的訂單在 30 天後刪除。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_cookie_h">Cookie 與防機器人驗證</h3>
+        <p data-i="p_cookie">本站沒有廣告、追蹤或分析程式。瀏覽器只會記住你選的語言。結帳時會出現 Cloudflare Turnstile，用來判斷是不是機器人，這項檢查由 Cloudflare 處理。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_rights_h">你的權利</h3>
+        <p data-i="p_rights">依《個人資料保護法》第 3 條，你可以查詢、閱覽、索取複本、補充或更正、要求停止蒐集處理利用，以及要求刪除你的資料。寫信給我們即可，不收費。法律要求保存的發票與會計資料，在保存期間內無法刪除。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_without_h">不提供資料會怎樣</h3>
+        <p data-i="p_without">結帳表單上的必填欄位沒有填寫，就無法完成訂購與寄送。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_safe_h">怎麼保護</h3>
+        <p data-i="p_safe">全程加密連線傳輸，資料庫只有我們能存取，卡號不經過我們的系統。</p>
+      </div>
+      <div class="item">
+        <h3 data-i="p_change_h">政策變更</h3>
+        <p data-i="p_change">內容修改時會更新本頁上方的日期。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card contact" id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h" data-i="contact_h">聯絡我們</h2>
+    <p data-i="contact">退貨、退款或個資相關的問題，都可以寫信或來電。</p>
+    <p><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></p>
+    <p><a href="tel:+886935285037">0935-285-037</a></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <span data-i="s_name_v">破渡攝影工作室</span><span>02269235</span><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#105;&#109;&#111;&#107;&#97;&#104;&#104;&#104;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+  </div>
+</footer>
+<script>window.OK_I18N = {"_title":["購物須知與隱私權政策 | 我都ok啊","购物须知与隐私政策 | 我都ok啊","Purchase terms and privacy policy | imokahhhh","購入に関するご案内とプライバシーポリシー | imokahhhh","구매 안내 및 개인정보 처리방침 | imokahhhh","Condiciones de compra y política de privacidad | imokahhhh","Termos de compra e política de privacidade | imokahhhh","खरीद की शर्तें और गोपनीयता नीति | imokahhhh","Terma pembelian dan dasar privasi | imokahhhh"],"_desc":["我都ok啊攝影集的退換貨、退款與個人資料保護說明。","我都ok啊摄影集的退换货、退款与个人信息保护说明。","Returns, refunds and how imokahhhh handles your personal data for the photobook shop.","imokahhhh 写真集の返品、交換、返金と個人情報の取り扱いについてのご案内です。","imokahhhh 사진집의 반품, 교환, 환불 및 개인정보 보호에 관한 안내입니다.","Devoluciones, reembolsos y cómo trata imokahhhh tus datos personales en la tienda del libro de fotos.","Devoluções, reembolsos e como a imokahhhh trata seus dados pessoais na loja do fotolivro.","फ़ोटोबुक शॉप के लिए रिटर्न, रिफ़ंड और imokahhhh आपके निजी डेटा को कैसे संभालता है।","Pemulangan, bayaran balik dan cara imokahhhh mengendalikan data peribadi anda untuk kedai buku foto."],"brand":["我都ok啊","我都ok啊","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh","imokahhhh"],"brand_sub":["攝影集","摄影集","Photobook","写真集","사진집","Libro de fotos","Fotolivro","फ़ोटोबुक","Buku Foto"],"back":["回攝影集","返回摄影集","Back to the photobook","写真集に戻る","사진집으로 돌아가기","Volver al libro de fotos","Voltar para o fotolivro","फ़ोटोबुक पर वापस जाएँ","Kembali ke buku foto"],"toc_label":["本頁內容","本页内容","On this page","このページの内容","이 페이지의 내용","En esta página","Nesta página","इस पेज पर","Dalam halaman ini"],"h1":["購物須知與隱私權政策","购物须知与隐私政策","Purchase terms and privacy policy","購入に関するご案内とプライバシーポリシー","구매 안내 및 개인정보 처리방침","Condiciones de compra y política de privacidad","Termos de compra e política de privacidade","खरीद की शर्तें और गोपनीयता नीति","Terma pembelian dan dasar privasi"],"updated":["最後更新：2026 年 11 月 26 日","最后更新：2026 年 11 月 26 日","Last updated: 26 November 2026","最終更新：2026年11月26日","최종 업데이트: 2026년 11월 26일","Última actualización: 26 de noviembre de 2026","Última atualização: 26 de novembro de 2026","अंतिम अपडेट: 26 नवंबर 2026","Kemas kini terakhir: 26 November 2026"],"basis":["本頁依台灣《消費者保護法》與《個人資料保護法》撰寫。中文版與其他語言版本不一致時，以繁體中文版為準。","本页依据台湾《消费者保护法》与《个人资料保护法》撰写。中文版与其他语言版本不一致时，以繁体中文版为准。","This page follows Taiwan's Consumer Protection Act and Personal Data Protection Act. If a translation differs from the Traditional Chinese version, the Traditional Chinese version applies.","このページは台湾の「消費者保護法」と「個人情報保護法」に基づいて作成しています。翻訳と繁体字中国語版の内容が異なる場合は、繁体字中国語版が優先されます。","이 페이지는 대만 「소비자보호법」과 「개인정보보호법」에 따라 작성되었습니다. 번역본과 번체 중국어판의 내용이 다를 경우 번체 중국어판이 우선합니다.","Esta página se basa en la Ley de Protección al Consumidor y la Ley de Protección de Datos Personales de Taiwán. Si una traducción difiere de la versión en chino tradicional, prevalece la versión en chino tradicional.","Esta página segue a Lei de Proteção ao Consumidor e a Lei de Proteção de Dados Pessoais de Taiwan. Se uma tradução divergir da versão em chinês tradicional, prevalece a versão em chinês tradicional.","यह पेज ताइवान के उपभोक्ता संरक्षण अधिनियम और व्यक्तिगत डेटा संरक्षण अधिनियम के अनुसार लिखा गया है। अनुवाद और पारंपरिक चीनी संस्करण में अंतर होने पर पारंपरिक चीनी संस्करण मान्य होगा।","Halaman ini berdasarkan Akta Perlindungan Pengguna dan Akta Perlindungan Data Peribadi Taiwan. Jika terjemahan berbeza daripada versi bahasa Cina Tradisional, versi bahasa Cina Tradisional terpakai."],"seller_h":["賣家資訊","卖家信息","Seller","販売者情報","판매자 정보","Vendedor","Vendedor","विक्रेता","Penjual"],"s_name_k":["商家名稱","商家名称","Business name","事業者名","상호","Nombre comercial","Nome da empresa","व्यवसाय का नाम","Nama perniagaan"],"s_name_v":["破渡攝影工作室","破渡摄影工作室","Podu Photography Studio (破渡攝影工作室)","Podu Photography Studio (破渡攝影工作室)","Podu Photography Studio (破渡攝影工作室)","Podu Photography Studio (破渡攝影工作室)","Podu Photography Studio (破渡攝影工作室)","Podu Photography Studio (破渡攝影工作室)","Podu Photography Studio (破渡攝影工作室)"],"s_tax_k":["統一編號","统一编号","Taiwan tax ID","統一編號（台湾の事業者番号）","통일번호(대만 사업자번호)","Número de identificación fiscal de Taiwán","Número fiscal em Taiwan","ताइवान टैक्स आईडी","Nombor cukai Taiwan"],"s_rep_k":["負責人","负责人","Owner","代表者","대표자","Titular","Responsável","मालिक","Pemilik"],"s_rep_v":["張道慈","张道慈","Chang Tao-Tzu (張道慈)","Chang Tao-Tzu (張道慈)","Chang Tao-Tzu (張道慈)","Chang Tao-Tzu (張道慈)","Chang Tao-Tzu (張道慈)","Chang Tao-Tzu (張道慈)","Chang Tao-Tzu (張道慈)"],"s_addr_k":["地址","地址","Address","住所","주소","Dirección","Endereço","पता","Alamat"],"s_addr_v":["新北市新店區三民路117巷6弄10號","新北市新店区三民路117巷6弄10号","No. 10, Alley 6, Lane 117, Sanmin Rd., Xindian Dist., New Taipei City, Taiwan","新北市新店區三民路117巷6弄10號","No. 10, Alley 6, Lane 117, Sanmin Rd., Xindian Dist., New Taipei City, Taiwan","No. 10, Alley 6, Lane 117, Sanmin Rd., Xindian Dist., New Taipei City, Taiwan","No. 10, Alley 6, Lane 117, Sanmin Rd., Xindian Dist., New Taipei City, Taiwan","No. 10, Alley 6, Lane 117, Sanmin Rd., Xindian Dist., New Taipei City, Taiwan","No. 10, Alley 6, Lane 117, Sanmin Rd., Xindian Dist., New Taipei City, Taiwan"],"s_tel_k":["電話","电话","Phone","電話番号","전화","Teléfono","Telefone","फ़ोन","Telefon"],"s_mail_k":["電子郵件","电子邮箱","Email","メールアドレス","이메일","Correo electrónico","E-mail","ईमेल","E-mel"],"terms_h":["購物須知","购物须知","Purchase terms","購入に関するご案内","구매 안내","Condiciones de compra","Termos de compra","खरीद की शर्तें","Terma pembelian"],"t_goods_h":["商品與價格","商品与价格","Product and price","商品と価格","상품 및 가격","Producto y precio","Produto e preço","उत्पाद और कीमत","Produk dan harga"],"t_goods":["商品頁上的說明、照片與價格都是契約的一部分。標示的價格已含稅、已含運費，結帳時不會再加其他費用。","商品页上的说明、照片与价格都是合同的一部分。标示的价格已含税、已含运费，结账时不会再加收其他费用。","The description, photos and price on the product page are part of your contract with us. The price includes tax and shipping; nothing is added at checkout.","商品ページの説明、写真、価格はすべて契約の一部です。表示価格は税込み、送料込みで、お会計時に追加の費用はかかりません。","상품 페이지의 설명, 사진, 가격은 모두 계약의 일부입니다. 표시된 가격은 세금과 배송비가 포함된 금액이며, 결제 시 추가 비용은 없습니다.","La descripción, las fotos y el precio de la página del producto forman parte del contrato. El precio incluye impuestos y envío; no se añade nada más al pagar.","A descrição, as fotos e o preço na página do produto fazem parte do seu contrato conosco. O preço já inclui impostos e frete; nada é acrescentado no checkout.","प्रोडक्ट पेज पर दिया गया विवरण, फ़ोटो और कीमत हमारे साथ आपके अनुबंध का हिस्सा हैं। कीमत में टैक्स और शिपिंग शामिल है; चेकआउट पर कुछ भी अलग से नहीं जोड़ा जाता।","Penerangan, foto dan harga di halaman produk adalah sebahagian daripada kontrak anda dengan kami. Harga sudah termasuk cukai dan penghantaran; tiada caj tambahan semasa pembayaran."],"t_pay_h":["付款","付款","Payment","お支払い","결제","Pago","Pagamento","भुगतान","Pembayaran"],"t_pay":["可用信用卡或 Apple Pay，由綠界科技處理。卡號只在綠界的付款頁輸入，我們看不到，也不會保存。","可使用信用卡或 Apple Pay 付款，由绿界科技处理。卡号只在绿界的付款页面输入，我们看不到，也不会保存。","Pay by credit card or Apple Pay, processed by ECPay. You enter your card number only on ECPay's payment page; we never see or store it.","クレジットカードまたは Apple Pay でお支払いいただけます。決済は ECPay（綠界科技）が処理します。カード番号は ECPay の決済ページでのみ入力するため、私たちが見ることも保存することもありません。","신용카드 또는 Apple Pay로 결제할 수 있으며, 결제는 ECPay(綠界科技)가 처리합니다. 카드 번호는 ECPay 결제 페이지에서만 입력하므로 저희는 볼 수 없고 저장하지도 않습니다.","Puedes pagar con tarjeta de crédito o Apple Pay; el pago lo procesa ECPay (綠界科技). El número de tarjeta solo se introduce en la página de pago de ECPay; nosotros nunca lo vemos ni lo guardamos.","Pague com cartão de crédito ou Apple Pay, com processamento pela ECPay. Você digita o número do cartão apenas na página de pagamento da ECPay; nós nunca o vemos nem o armazenamos.","क्रेडिट कार्ड या Apple Pay से भुगतान करें, जिसे ECPay प्रोसेस करता है। आप अपना कार्ड नंबर सिर्फ़ ECPay के भुगतान पेज पर डालते हैं; हम उसे कभी नहीं देखते और न ही सेव करते हैं।","Bayar dengan kad kredit atau Apple Pay, yang diproses oleh ECPay. Anda memasukkan nombor kad hanya di halaman pembayaran ECPay; kami tidak pernah melihat atau menyimpannya."],"t_ship_h":["寄送","配送","Shipping","配送","배송","Envío","Envio","शिपिंग","Penghantaran"],"t_ship":["免運費，只寄台灣（含離島）。本島以中華郵政宅配寄出，離島以郵局包裹寄出。寄出後會寄信通知追蹤號碼。","免运费，仅配送台湾地区（含离岛）。台湾本岛通过中华邮政宅配寄出，离岛通过邮局包裹寄出。寄出后会发邮件通知物流单号。","Free shipping, Taiwan only, outlying islands included. The main island gets Chunghwa Post home delivery; outlying islands get a post office parcel. We email you the tracking number once it ships.","送料無料で、台湾国内（離島を含む）のみに発送します。台湾本島へは中華郵政（Chunghwa Post）の宅配便、離島へは郵便局の小包でお送りします。発送後、追跡番号をメールでお知らせします。","배송비는 무료이며, 대만(외곽 도서 포함)으로만 배송합니다. 대만 본섬은 Chunghwa Post(中華郵政) 택배로, 외곽 도서는 우체국 소포로 발송합니다. 발송 후 운송장 번호를 이메일로 알려 드립니다.","Envío gratuito, solo dentro de Taiwán, islas periféricas incluidas. A la isla principal se envía por mensajería a domicilio de Chunghwa Post (中華郵政) y a las islas periféricas, como paquete postal de Correos. Cuando lo enviemos, te mandaremos por correo electrónico el número de seguimiento.","Frete grátis, somente para Taiwan, incluindo as ilhas periféricas. Na ilha principal, a entrega é em domicílio pela Chunghwa Post; nas ilhas periféricas, por encomenda dos correios. Enviamos o código de rastreamento por e-mail assim que o pedido for despachado.","शिपिंग मुफ़्त है, सिर्फ़ ताइवान में, बाहरी द्वीपों सहित। मुख्य द्वीप पर Chunghwa Post से होम डिलीवरी होती है; बाहरी द्वीपों पर डाकघर पार्सल से। ऑर्डर भेजते ही हम आपको ट्रैकिंग नंबर ईमेल करते हैं।","Penghantaran percuma, untuk Taiwan sahaja, termasuk pulau-pulau terpencil. Pulau utama menerima penghantaran ke rumah oleh Chunghwa Post; pulau-pulau terpencil menerima bungkusan pejabat pos. Kami akan e-melkan nombor penjejakan sebaik sahaja pesanan dihantar."],"t_cancel_h":["取消訂單","取消订单","Cancelling an order","注文のキャンセル","주문 취소","Cancelar un pedido","Cancelar um pedido","ऑर्डर रद्द करना","Membatalkan pesanan"],"t_cancel":["還沒出貨前，寫信告訴我們訂單編號就能取消，款項全額退回。","发货之前，发邮件告诉我们订单编号即可取消，款项全额退还。","Before the order ships, email us your order number to cancel it, and we refund the full amount.","発送前であれば、注文番号をメールでお知らせいただくだけでキャンセルでき、代金は全額返金します。","발송 전이라면 주문 번호를 이메일로 알려 주시면 취소할 수 있으며, 결제 금액은 전액 환불됩니다.","Antes de que se envíe el pedido, escríbenos con el número de pedido para cancelarlo y te devolvemos el importe íntegro.","Antes de o pedido ser enviado, mande o número do pedido por e-mail para cancelá-lo, e devolvemos o valor total.","ऑर्डर भेजे जाने से पहले, उसे रद्द करने के लिए हमें अपना ऑर्डर नंबर ईमेल करें, और हम पूरी रकम वापस कर देंगे।","Sebelum pesanan dihantar, e-melkan nombor pesanan anda kepada kami untuk membatalkannya, dan kami akan memulangkan jumlah penuh."],"t_cool_h":["7 天內免理由退貨","7 天内无理由退货","Return within 7 days, no reason needed","7日以内なら理由を問わず返品可能","7일 이내 이유 불문 반품","Devolución en 7 días sin dar motivos","Devolução em até 7 dias, sem precisar de motivo","7 दिनों में रिटर्न, कोई कारण बताने की ज़रूरत नहीं","Pulangan dalam 7 hari, tanpa perlu sebab"],"t_cool":["依《消費者保護法》第 19 條，收到商品的隔天起 7 天內，可以不說明理由退貨，不需負擔任何費用，寄回運費由我們出。為了檢查而拆封、翻閱，不影響退貨權利。","依据台湾《消费者保护法》第 19 条，自收到商品的次日起 7 天内，可以无需说明理由退货，不需承担任何费用，退回运费由我们承担。为了检查而拆封、翻阅，不影响退货权利。","Under Article 19 of Taiwan's Consumer Protection Act, you may return the book within 7 days from the day after delivery without giving a reason and at no cost; we pay the return shipping. Opening and leafing through the book to inspect it does not affect this right.","台湾の「消費者保護法」第19条により、商品到着の翌日から7日以内であれば、理由を説明せず、費用の負担もなく返品できます。返送料は私たちが負担します。確認のために開封したり、ページをめくったりしても、返品の権利には影響しません。","대만 「소비자보호법」 제19조에 따라, 상품을 받은 다음 날부터 7일 이내에는 이유를 밝히지 않고 비용 부담 없이 반품할 수 있으며, 반송 배송비는 저희가 부담합니다. 확인을 위해 포장을 뜯거나 책장을 넘겨 보아도 반품 권리에는 영향이 없습니다.","Según el artículo 19 de la Ley de Protección al Consumidor de Taiwán, puedes devolver el libro en un plazo de 7 días a partir del día siguiente a la entrega, sin dar motivos y sin ningún coste; nosotros pagamos el envío de vuelta. Abrir el libro y hojearlo para revisarlo no afecta a este derecho.","Pelo Artigo 19 da Lei de Proteção ao Consumidor de Taiwan, você pode devolver o livro em até 7 dias a partir do dia seguinte à entrega, sem dar motivo e sem custo; nós pagamos o frete de devolução. Abrir e folhear o livro para conferi-lo não afeta esse direito.","ताइवान के उपभोक्ता संरक्षण अधिनियम (Consumer Protection Act) के अनुच्छेद 19 के तहत, आप डिलीवरी के अगले दिन से 7 दिनों के भीतर बिना कोई कारण बताए और बिना किसी खर्च के किताब लौटा सकते हैं; रिटर्न शिपिंग का खर्च हम उठाते हैं। जाँच के लिए किताब खोलने और उसके पन्ने पलटने से यह अधिकार प्रभावित नहीं होता।","Di bawah Perkara 19 Akta Perlindungan Pengguna Taiwan, anda boleh memulangkan buku dalam masa 7 hari dari hari selepas penghantaran tanpa memberi sebab dan tanpa kos; kami menanggung kos penghantaran pulangan. Membuka dan menyelak buku untuk memeriksanya tidak menjejaskan hak ini."],"t_how_h":["怎麼退貨","如何退货","How to return","返品の方法","반품 방법","Cómo devolverlo","Como devolver","रिटर्न कैसे करें","Cara memulangkan"],"t_how":["寫信到下方的電子郵件，附上訂單編號與收件人姓名。我們會回信告訴你寄回的方式，寄回運費由我們負擔。","发邮件到下方的电子邮箱，附上订单编号与收件人姓名。我们会回复告诉你退回方式，退回运费由我们承担。","Email us at the address below with your order number and the recipient's name. We reply with how to send it back, and we cover the return postage.","下記のメールアドレスに、注文番号と受取人のお名前を添えてご連絡ください。返送方法をメールでご案内します。返送料は私たちが負担します。","아래 이메일 주소로 주문 번호와 수령인 이름을 보내 주세요. 반송 방법을 회신으로 안내해 드리며, 반송 배송비는 저희가 부담합니다.","Escríbenos a la dirección de correo de abajo con el número de pedido y el nombre del destinatario. Te responderemos con las instrucciones para devolverlo, y nosotros pagamos el envío de vuelta.","Mande um e-mail para o endereço abaixo com o número do pedido e o nome do destinatário. Respondemos explicando como enviar o livro de volta, e nós pagamos o frete da devolução.","नीचे दिए गए पते पर अपना ऑर्डर नंबर और प्राप्तकर्ता का नाम ईमेल करें। हम जवाब में बताएँगे कि किताब कैसे वापस भेजनी है, और रिटर्न डाक का खर्च हम उठाएँगे।","E-melkan kepada kami di alamat di bawah dengan nombor pesanan dan nama penerima. Kami akan membalas dengan cara menghantarnya semula, dan kami menanggung kos pos pulangan."],"t_refund_h":["退款","退款","Refunds","返金","환불","Reembolsos","Reembolsos","रिफ़ंड","Bayaran balik"],"t_refund":["收到退回的商品或你的退貨通知後，15 天內退款，一律退回原本付款的信用卡（Apple Pay 也退回綁定的卡）。實際入帳時間依發卡銀行而定。電子發票由我們作廢或折讓，不需要你處理。","收到退回的商品或你的退货通知后，我们会在 15 天内退款，一律退回原付款信用卡（Apple Pay 也退回绑定的卡）。实际到账时间取决于发卡银行。电子发票由我们作废或折让，无需你处理。","Within 15 days of receiving the returned book or your return notice, we refund to the card you paid with (Apple Pay refunds go to the linked card). When it shows up depends on your card issuer. We void or adjust the e-invoice for you.","返品された商品、または返品のご連絡を受け取ってから15日以内に返金します。返金先は必ずお支払いに使われたクレジットカードです（Apple Pay の場合は登録されたカードに返金します）。実際に反映される時期はカード発行会社によって異なります。電子インボイスの取り消しや修正は私たちが行うため、お客様の手続きは不要です。","반품된 상품 또는 반품 통지를 받은 후 15일 이내에 환불하며, 환불은 항상 결제에 사용한 신용카드로 처리됩니다(Apple Pay는 연결된 카드로 환불). 실제 입금 시점은 카드 발급사에 따라 다릅니다. 전자 영수증의 취소 또는 금액 조정은 저희가 처리하므로 따로 하실 일은 없습니다.","En un plazo de 15 días desde que recibamos el libro devuelto o tu aviso de devolución, te reembolsamos a la tarjeta con la que pagaste (los pagos con Apple Pay se reembolsan a la tarjeta vinculada). Cuándo aparece el abono depende del banco emisor de la tarjeta. Nosotros anulamos o ajustamos la factura electrónica; tú no tienes que hacer nada.","Em até 15 dias após recebermos o livro devolvido ou seu aviso de devolução, reembolsamos no cartão usado no pagamento (reembolsos de Apple Pay vão para o cartão vinculado). O prazo para o valor aparecer depende do emissor do seu cartão. Nós cancelamos ou ajustamos a nota fiscal eletrônica para você.","लौटाई गई किताब या आपकी रिटर्न सूचना मिलने के 15 दिनों के भीतर, हम उसी कार्ड पर रिफ़ंड करते हैं जिससे आपने भुगतान किया था (Apple Pay के रिफ़ंड लिंक किए गए कार्ड पर जाते हैं)। रकम कब दिखेगी, यह आपके कार्ड जारीकर्ता पर निर्भर करता है। ई-इनवॉइस को हम आपके लिए रद्द या संशोधित कर देते हैं।","Dalam masa 15 hari selepas kami menerima buku yang dipulangkan atau notis pulangan anda, kami membuat bayaran balik ke kad yang anda gunakan untuk membayar (bayaran balik Apple Pay masuk ke kad yang dipautkan). Bila ia muncul bergantung pada pengeluar kad anda. Kami akan membatalkan atau melaraskan e-invois untuk anda."],"t_defect_h":["破損、瑕疵或寄錯","破损、瑕疵或发错货","Damaged, defective or wrong item","破損、不良品、誤配送","파손, 불량 또는 오배송","Producto dañado, defectuoso o equivocado","Item danificado, com defeito ou errado","क्षतिग्रस्त, दोषपूर्ण या गलत आइटम","Barang rosak, cacat atau salah"],"t_defect":["收到時若有破損、印刷瑕疵、缺頁或寄錯，請盡快寫信並附照片，建議在到貨 7 天內。你可以選擇換新或全額退款，來回運費都由我們負擔；沒有庫存時改為全額退款。超過 7 天，你仍可依《民法》主張瑕疵擔保的權利。","收到时如有破损、印刷瑕疵、缺页或发错货，请尽快发邮件并附上照片，建议在到货 7 天内联系。你可以选择换新或全额退款，往返运费都由我们承担；没有库存时改为全额退款。超过 7 天，你仍可依据台湾《民法》主张瑕疵担保的权利。","If the book arrives damaged, misprinted, missing pages or is the wrong item, email us with photos as soon as you can, ideally within 7 days of delivery. Choose a replacement or a full refund; we pay shipping both ways, and refund in full if it is out of stock. After 7 days you still keep your rights under Taiwan's Civil Code.","届いた商品に破損、印刷不良、落丁があった場合や、違う商品が届いた場合は、できるだけ早く写真を添えてメールでご連絡ください。到着から7日以内のご連絡をおすすめします。新品への交換か全額返金かを選べ、往復の送料はどちらも私たちが負担します。在庫がない場合は全額返金となります。7日を過ぎても、台湾の「民法」に基づく瑕疵担保の権利を主張できます。","받으신 상품에 파손, 인쇄 불량, 낙장이 있거나 다른 상품이 배송된 경우, 가능한 한 빨리 사진을 첨부해 이메일로 알려 주세요. 도착 후 7일 이내에 연락하시길 권장합니다. 새 상품으로 교환하거나 전액 환불을 선택할 수 있으며, 왕복 배송비는 모두 저희가 부담합니다. 재고가 없으면 전액 환불해 드립니다. 7일이 지나도 대만 「민법」에 따른 하자담보 권리를 주장할 수 있습니다.","Si el libro llega dañado, con defectos de impresión, con páginas que faltan o si no es el producto correcto, escríbenos con fotos lo antes posible, idealmente dentro de los 7 días siguientes a la entrega. Puedes elegir un ejemplar nuevo o el reembolso íntegro; pagamos el envío de ida y vuelta, y si no queda stock te devolvemos el importe íntegro. Pasados los 7 días, sigues conservando tus derechos de garantía por defectos según el Código Civil de Taiwán.","Se o livro chegar danificado, com erro de impressão, faltando páginas ou se for o item errado, mande um e-mail com fotos o quanto antes, de preferência em até 7 dias após a entrega. Escolha entre troca ou reembolso total; pagamos o frete de ida e volta e, se não houver estoque, reembolsamos o valor total. Depois de 7 dias, você continua tendo seus direitos pelo Código Civil de Taiwan.","अगर किताब क्षतिग्रस्त पहुँचे, उसमें छपाई की गलती हो, पन्ने गायब हों या गलत आइटम आए, तो जितनी जल्दी हो सके फ़ोटो के साथ हमें ईमेल करें, बेहतर होगा कि डिलीवरी के 7 दिनों के भीतर। आप रिप्लेसमेंट या पूरा रिफ़ंड चुन सकते हैं; दोनों तरफ़ की शिपिंग का खर्च हम उठाते हैं, और स्टॉक न होने पर पूरा रिफ़ंड करते हैं। 7 दिनों के बाद भी ताइवान के सिविल कोड (Civil Code) के तहत आपके अधिकार बने रहते हैं।","Jika buku tiba dalam keadaan rosak, tersalah cetak, kurang halaman atau barang yang salah, e-melkan kepada kami bersama foto secepat mungkin, sebaik-baiknya dalam masa 7 hari selepas penghantaran. Pilih penggantian atau bayaran balik penuh; kami menanggung kos penghantaran pergi dan balik, dan membuat bayaran balik penuh jika stok habis. Selepas 7 hari, anda masih mempunyai hak anda di bawah Kanun Sivil Taiwan."],"privacy_h":["隱私權政策","隐私政策","Privacy policy","プライバシーポリシー","개인정보 처리방침","Política de privacidad","Política de privacidade","गोपनीयता नीति","Dasar privasi"],"p_who_h":["誰在蒐集你的資料","谁在收集你的信息","Who collects your data","誰が情報を収集するのか","누가 개인정보를 수집하나요","Quién recoge tus datos","Quem coleta seus dados","आपका डेटा कौन इकट्ठा करता है","Siapa yang mengumpul data anda"],"p_who":["破渡攝影工作室，聯絡方式見上方賣家資訊。","破渡摄影工作室，联系方式见上方卖家信息。","Podu Photography Studio; contact details are under Seller above.","Podu Photography Studio（破渡攝影工作室）です。連絡先は上記の販売者情報をご覧ください。","Podu Photography Studio(破渡攝影工作室)입니다. 연락처는 위의 판매자 정보를 참고해 주세요.","Podu Photography Studio (破渡攝影工作室). Los datos de contacto están arriba, en Vendedor.","Podu Photography Studio; os dados de contato estão em Vendedor, acima.","Podu Photography Studio; संपर्क की जानकारी ऊपर विक्रेता वाले भाग में है।","Podu Photography Studio; butiran hubungan ada di bahagian Penjual di atas."],"p_why_h":["為什麼蒐集","为什么收集","Why","収集する目的","수집 목적","Para qué","Para quê","क्यों","Untuk apa"],"p_why":["只用來處理你的訂單：付款、開立電子發票、寄送、通知出貨、客服與退換貨。我們不寄行銷信，也不出售或出租你的資料。","只用于处理你的订单：付款、开具电子发票、配送、发货通知、客服与退换货。我们不发营销邮件，也不出售或出租你的信息。","Only to handle your order: payment, the e-invoice, shipping, shipping notices, support, and returns. We send no marketing email and never sell or rent your data.","ご注文の処理のためだけに使います。具体的には、お支払い、電子インボイスの発行、配送、発送のお知らせ、お問い合わせ対応、返品と交換です。宣伝メールは送らず、情報を販売したり貸し出したりすることもありません。","주문 처리에만 사용합니다. 결제, 전자 영수증 발행, 배송, 발송 알림, 고객 문의, 반품 및 교환이 이에 해당합니다. 마케팅 이메일은 보내지 않으며, 개인정보를 판매하거나 대여하지 않습니다.","Solo para gestionar tu pedido: el pago, la factura electrónica, el envío, los avisos de envío, la atención al cliente y las devoluciones. No enviamos correos de publicidad y nunca vendemos ni alquilamos tus datos.","Apenas para processar seu pedido: pagamento, nota fiscal eletrônica, envio, avisos de envio, atendimento e devoluções. Não enviamos e-mails de marketing e nunca vendemos nem alugamos seus dados.","सिर्फ़ आपके ऑर्डर को पूरा करने के लिए: भुगतान, ई-इनवॉइस, शिपिंग, शिपिंग की सूचनाएँ, सहायता और रिटर्न। हम कोई मार्केटिंग ईमेल नहीं भेजते और आपका डेटा कभी बेचते या किराए पर नहीं देते।","Hanya untuk mengendalikan pesanan anda: pembayaran, e-invois, penghantaran, notis penghantaran, sokongan dan pemulangan. Kami tidak menghantar e-mel pemasaran dan tidak pernah menjual atau menyewakan data anda."],"p_what_h":["蒐集哪些資料","收集哪些信息","What we collect","収集する情報","수집하는 정보","Qué datos recogemos","O que coletamos","हम क्या इकट्ठा करते हैं","Apa yang kami kumpul"],"p_what":["姓名、手機、電子郵件、寄送地址、發票資訊（手機條碼、會員載具、捐贈碼、統一編號與抬頭）、備註，以及付款結果（不含卡號）。為了防止濫用，你的 IP 位址會經過加鹽雜湊後才保存，無法還原成原本的 IP。","姓名、手机号、电子邮箱、配送地址、发票信息（手机条码、会员载具、捐赠码、统一编号与抬头）、备注，以及付款结果（不含卡号）。为了防止滥用，你的 IP 地址会经过加盐哈希处理后才保存，无法还原成原本的 IP。","Your name, mobile number, email, delivery address, invoice details (mobile barcode, member carrier, donation code, company tax ID and name), your note, and the payment result (no card number). To prevent abuse we keep your IP address only as a salted hash that cannot be turned back into the IP.","お名前、携帯電話番号、メールアドレス、配送先住所、インボイス情報（モバイルバーコード、会員キャリア、寄付コード、統一編號と会社名）、備考、お支払いの結果（カード番号は含みません）です。不正利用を防ぐため、IP アドレスはソルト付きハッシュに変換してから保存します。元の IP アドレスに戻すことはできません。","이름, 휴대폰 번호, 이메일, 배송 주소, 영수증 정보(모바일 바코드, 회원 캐리어, 기부 코드, 통일번호와 회사명), 메모, 결제 결과(카드 번호 제외)입니다. 악용을 막기 위해 IP 주소는 솔트를 적용한 해시로 변환한 뒤에만 저장하며, 원래의 IP 주소로 되돌릴 수 없습니다.","Tu nombre, número de móvil, correo electrónico, dirección de entrega, datos de facturación (código de barras móvil, portador de miembro, código de donación, número fiscal y nombre de la empresa), tu nota y el resultado del pago (sin el número de tarjeta). Para evitar abusos, guardamos tu dirección IP solo como un hash con sal, que no se puede convertir de nuevo en la IP original.","Seu nome, celular, e-mail, endereço de entrega, dados da nota fiscal (código de barras do celular, conta de membro, código de doação, número fiscal e nome da empresa), sua observação e o resultado do pagamento (sem o número do cartão). Para evitar abusos, guardamos seu endereço IP apenas como um hash com salt, que não pode ser convertido de volta no IP.","आपका नाम, मोबाइल नंबर, ईमेल, डिलीवरी का पता, इनवॉइस की जानकारी (मोबाइल बारकोड, मेंबर कैरियर, दान कोड, कंपनी टैक्स आईडी और नाम), आपका नोट, और भुगतान का नतीजा (कार्ड नंबर नहीं)। दुरुपयोग रोकने के लिए हम आपका IP पता सिर्फ़ salted hash के रूप में रखते हैं, जिससे IP वापस नहीं निकाला जा सकता।","Nama, nombor telefon bimbit, e-mel, alamat penghantaran, butiran invois (kod bar mudah alih, pembawa ahli, kod derma, nombor cukai dan nama syarikat), nota anda, dan keputusan pembayaran (tanpa nombor kad). Untuk mencegah penyalahgunaan, kami menyimpan alamat IP anda hanya sebagai hash bergaram yang tidak boleh ditukar semula kepada IP."],"p_share_h":["會交給誰","会提供给谁","Who receives it","情報の提供先","누구에게 제공하나요","Quién los recibe","Quem recebe","यह किसे मिलता है","Siapa yang menerimanya"],"p_share":["只交給完成訂單所需的服務商：綠界科技（金流、電子發票、物流）、中華郵政（寄送）、Resend（寄送訂單通知信）、Cloudflare（網站後端、資料庫與防機器人驗證）。網站頁面放在 GitHub Pages。","只提供给完成订单所需的服务商：绿界科技（支付、电子发票、物流）、中华邮政（配送）、Resend（发送订单通知邮件）、Cloudflare（网站后端、数据库与人机验证）。网站页面托管在 GitHub Pages。","Only the services needed to fulfil your order: ECPay (payment, e-invoice, logistics), Chunghwa Post (delivery), Resend (order emails), and Cloudflare (the site's backend, database and bot check). The web pages are hosted on GitHub Pages.","ご注文の処理に必要なサービス事業者にのみ提供します。ECPay（綠界科技、決済、電子インボイス、物流）、中華郵政（Chunghwa Post、配送）、Resend（注文のお知らせメールの送信）、Cloudflare（サイトのバックエンド、データベース、ボット対策の認証）です。ウェブページは GitHub Pages で公開しています。","주문 처리에 필요한 서비스 업체에만 제공합니다. ECPay(綠界科技, 결제, 전자 영수증, 물류), Chunghwa Post(中華郵政, 배송), Resend(주문 알림 이메일 발송), Cloudflare(사이트 백엔드, 데이터베이스, 봇 방지 인증)입니다. 웹 페이지는 GitHub Pages에서 호스팅합니다.","Solo a los servicios necesarios para completar tu pedido: ECPay (綠界科技; pago, factura electrónica y logística), Chunghwa Post (中華郵政; entrega), Resend (correos sobre el pedido) y Cloudflare (servidor del sitio, base de datos y verificación antibots). Las páginas web están alojadas en GitHub Pages.","Apenas os serviços necessários para concluir seu pedido: ECPay (pagamento, nota fiscal eletrônica, logística), Chunghwa Post (entrega), Resend (e-mails do pedido) e Cloudflare (backend do site, banco de dados e verificação contra bots). As páginas do site ficam hospedadas no GitHub Pages.","सिर्फ़ वे सेवाएँ जो आपका ऑर्डर पूरा करने के लिए ज़रूरी हैं: ECPay (भुगतान, ई-इनवॉइस, लॉजिस्टिक्स), Chunghwa Post (डिलीवरी), Resend (ऑर्डर ईमेल), और Cloudflare (साइट का बैकएंड, डेटाबेस और बॉट जाँच)। वेब पेज GitHub Pages पर होस्ट किए गए हैं।","Hanya perkhidmatan yang diperlukan untuk memenuhi pesanan anda: ECPay (pembayaran, e-invois, logistik), Chunghwa Post (penghantaran), Resend (e-mel pesanan), dan Cloudflare (backend laman, pangkalan data dan semakan bot). Halaman web dihoskan di GitHub Pages."],"p_where_h":["在哪裡處理","在哪里处理","Where","処理する場所","처리 장소","Dónde","Onde","कहाँ","Di mana"],"p_where":["台灣，以及上述服務商的伺服器所在地，可能包括日本、美國等台灣以外的地區。","台湾，以及上述服务商服务器所在地，可能包括日本、美国等台湾以外的地区。","In Taiwan and wherever the services above run their servers, which can include places outside Taiwan such as Japan and the United States.","台湾、および上記のサービス事業者のサーバーがある場所です。日本やアメリカなど、台湾以外の地域が含まれる場合があります。","대만, 그리고 위 서비스 업체의 서버가 있는 곳이며, 일본, 미국 등 대만 이외의 지역이 포함될 수 있습니다.","En Taiwán y donde los servicios mencionados tengan sus servidores, lo que puede incluir lugares fuera de Taiwán, como Japón y Estados Unidos.","Em Taiwan e onde quer que os serviços acima mantenham seus servidores, o que pode incluir lugares fora de Taiwan, como o Japão e os Estados Unidos.","ताइवान में, और वहाँ जहाँ ऊपर बताई गई सेवाओं के सर्वर चलते हैं। इनमें ताइवान के बाहर की जगहें भी हो सकती हैं, जैसे जापान और अमेरिका।","Di Taiwan dan di mana sahaja perkhidmatan di atas menjalankan pelayan mereka, termasuk mungkin di luar Taiwan seperti Jepun dan Amerika Syarikat."],"p_keep_h":["保存多久","保存多久","How long","保存期間","보관 기간","Cuánto tiempo","Por quanto tempo","कितने समय तक","Berapa lama"],"p_keep":["成立的訂單與發票資料依《商業會計法》保存 5 年，期滿後刪除可辨識你的資料。沒有付款的訂單在 30 天後刪除。","已成立的订单与发票信息依据台湾《商业会计法》保存 5 年，期满后删除可识别你身份的信息。未付款的订单在 30 天后删除。","Completed orders and invoice data are kept for 5 years, as Taiwan's Business Entity Accounting Act requires, then the details that identify you are deleted. Unpaid orders are deleted after 30 days.","成立した注文とインボイスの情報は、台湾の「商業会計法」に基づき5年間保存し、期間が終わったらお客様を特定できる情報を削除します。お支払いのない注文は30日後に削除します。","성립된 주문과 영수증 정보는 대만 「상업회계법」에 따라 5년간 보관하며, 기간이 끝나면 고객을 식별할 수 있는 정보를 삭제합니다. 결제되지 않은 주문은 30일 후에 삭제합니다.","Los pedidos completados y los datos de facturación se conservan 5 años, como exige la Ley de Contabilidad de Entidades Comerciales de Taiwán (Business Entity Accounting Act); después se eliminan los datos que te identifican. Los pedidos no pagados se eliminan a los 30 días.","Pedidos concluídos e dados de notas fiscais são guardados por 5 anos, como exige a Lei de Contabilidade de Entidades Empresariais de Taiwan, e depois os dados que identificam você são apagados. Pedidos não pagos são apagados após 30 dias.","पूरे हुए ऑर्डर और इनवॉइस का डेटा 5 साल तक रखा जाता है, जैसा ताइवान का व्यावसायिक इकाई लेखा अधिनियम (Business Entity Accounting Act) माँगता है, फिर आपकी पहचान बताने वाली जानकारी हटा दी जाती है। बिना भुगतान वाले ऑर्डर 30 दिनों बाद हटा दिए जाते हैं।","Pesanan yang selesai dan data invois disimpan selama 5 tahun, seperti yang dikehendaki oleh Akta Perakaunan Entiti Perniagaan Taiwan, kemudian butiran yang mengenal pasti anda dipadamkan. Pesanan yang tidak dibayar dipadamkan selepas 30 hari."],"p_cookie_h":["Cookie 與防機器人驗證","Cookie 与人机验证","Cookies and the bot check","Cookie とボット対策の認証","쿠키 및 봇 방지 인증","Cookies y verificación antibots","Cookies e verificação contra bots","कुकीज़ और बॉट जाँच","Kuki dan semakan bot"],"p_cookie":["本站沒有廣告、追蹤或分析程式。瀏覽器只會記住你選的語言。結帳時會出現 Cloudflare Turnstile，用來判斷是不是機器人，這項檢查由 Cloudflare 處理。","本站没有广告、跟踪或分析程序。浏览器只会记住你选择的语言。结账时会出现 Cloudflare Turnstile，用来判断是否为机器人，这项检查由 Cloudflare 处理。","This site runs no ads, tracking or analytics. Your browser only remembers the language you chose. At checkout, Cloudflare Turnstile checks that you are not a bot; Cloudflare handles that check.","このサイトには広告、トラッキング、アクセス解析のプログラムはありません。ブラウザに保存されるのは、選んだ言語だけです。お会計時には、ボットかどうかを判定する Cloudflare Turnstile が表示されます。この判定は Cloudflare が処理します。","이 사이트에는 광고, 추적, 분석 프로그램이 없습니다. 브라우저는 선택하신 언어만 기억합니다. 결제 시에는 봇 여부를 판단하는 Cloudflare Turnstile이 표시되며, 이 확인은 Cloudflare가 처리합니다.","Este sitio no tiene anuncios, seguimiento ni herramientas de analítica. Tu navegador solo recuerda el idioma que elegiste. Al pagar aparece Cloudflare Turnstile, que comprueba que no eres un bot; esa comprobación la realiza Cloudflare.","Este site não tem anúncios, rastreamento nem análises. Seu navegador só guarda o idioma que você escolheu. No checkout, o Cloudflare Turnstile verifica se você não é um bot; essa verificação é feita pela Cloudflare.","इस साइट पर कोई विज्ञापन, ट्रैकिंग या एनालिटिक्स नहीं है। आपका ब्राउज़र सिर्फ़ आपकी चुनी हुई भाषा याद रखता है। चेकआउट पर Cloudflare Turnstile जाँचता है कि आप बॉट नहीं हैं; यह जाँच Cloudflare संभालता है।","Laman ini tidak menjalankan iklan, penjejakan atau analitik. Pelayar anda hanya mengingati bahasa yang anda pilih. Semasa pembayaran, Cloudflare Turnstile memeriksa bahawa anda bukan bot; semakan itu dikendalikan oleh Cloudflare."],"p_rights_h":["你的權利","你的权利","Your rights","お客様の権利","이용자의 권리","Tus derechos","Seus direitos","आपके अधिकार","Hak anda"],"p_rights":["依《個人資料保護法》第 3 條，你可以查詢、閱覽、索取複本、補充或更正、要求停止蒐集處理利用，以及要求刪除你的資料。寫信給我們即可，不收費。法律要求保存的發票與會計資料，在保存期間內無法刪除。","依据台湾《个人资料保护法》第 3 条，你可以查询、阅览、索取副本、补充或更正、要求停止收集处理利用，以及要求删除你的信息。发邮件给我们即可，不收费。法律要求保存的发票与会计信息，在保存期间内无法删除。","Under Article 3 of Taiwan's Personal Data Protection Act you can ask to see your data, get a copy, correct or complete it, stop its collection and use, or have it deleted. Just email us; it is free. Invoice and accounting records the law requires us to keep cannot be deleted until that period ends.","台湾の「個人資料保護法」第3条により、ご自身の情報について、照会、閲覧、写しの請求、追加や訂正、収集と処理と利用の停止、削除を求めることができます。メールでご連絡いただければ対応し、費用はかかりません。法律で保存が義務付けられているインボイスと会計の記録は、保存期間中は削除できません。","대만 「개인정보보호법」 제3조에 따라 본인의 정보에 대해 조회, 열람, 사본 요청, 보완 또는 정정, 수집과 처리 및 이용의 중지, 삭제를 요구할 수 있습니다. 이메일로 연락 주시면 되며, 비용은 없습니다. 법률상 보관 의무가 있는 영수증과 회계 기록은 보관 기간 동안 삭제할 수 없습니다.","Según el artículo 3 de la Ley de Protección de Datos Personales de Taiwán, puedes consultar y ver tus datos, pedir una copia, completarlos o corregirlos, pedir que dejemos de recogerlos, tratarlos y usarlos, o pedir que los eliminemos. Basta con escribirnos; es gratis. Los registros de facturación y contabilidad que la ley nos obliga a conservar no se pueden eliminar hasta que termine ese plazo.","Pelo Artigo 3 da Lei de Proteção de Dados Pessoais de Taiwan, você pode pedir para ver seus dados, receber uma cópia, corrigi-los ou completá-los, interromper a coleta e o uso, ou excluí-los. É só mandar um e-mail; é grátis. Registros de notas fiscais e contábeis que a lei nos obriga a guardar não podem ser apagados até o fim desse prazo.","ताइवान के व्यक्तिगत डेटा संरक्षण अधिनियम (Personal Data Protection Act) के अनुच्छेद 3 के तहत आप अपना डेटा देखने, उसकी कॉपी लेने, उसे सुधारने या पूरा करने, उसका संग्रह और इस्तेमाल रोकने, या उसे हटवाने का अनुरोध कर सकते हैं। बस हमें ईमेल करें; यह मुफ़्त है। जो इनवॉइस और अकाउंटिंग रिकॉर्ड कानून के अनुसार रखने ज़रूरी हैं, उन्हें वह अवधि खत्म होने तक हटाया नहीं जा सकता।","Di bawah Perkara 3 Akta Perlindungan Data Peribadi Taiwan, anda boleh meminta untuk melihat data anda, mendapatkan salinan, membetulkan atau melengkapkannya, menghentikan pengumpulan dan penggunaannya, atau memadamkannya. Hanya e-melkan kepada kami; ia percuma. Rekod invois dan perakaunan yang wajib kami simpan mengikut undang-undang tidak boleh dipadam sehingga tempoh itu tamat."],"p_without_h":["不提供資料會怎樣","不提供信息会怎样","If you do not provide it","情報を提供しない場合","정보를 제공하지 않으면","Si no nos das los datos","Se você não fornecer","अगर आप यह जानकारी नहीं देते","Jika anda tidak memberikannya"],"p_without":["結帳表單上的必填欄位沒有填寫，就無法完成訂購與寄送。","结账表单上的必填项没有填写，就无法完成订购与配送。","Without the required fields on the checkout form we cannot take or ship your order.","お会計フォームの必須項目が入力されていない場合、ご注文と配送を完了できません。","결제 양식의 필수 항목을 입력하지 않으면 주문과 배송을 완료할 수 없습니다.","Sin los campos obligatorios del formulario de pago, no podemos tramitar ni enviar tu pedido.","Sem os campos obrigatórios do formulário de checkout, não conseguimos aceitar nem enviar seu pedido.","चेकआउट फ़ॉर्म के ज़रूरी फ़ील्ड के बिना हम आपका ऑर्डर न ले सकते हैं, न भेज सकते हैं।","Tanpa ruangan wajib dalam borang pembayaran, kami tidak dapat menerima atau menghantar pesanan anda."],"p_safe_h":["怎麼保護","如何保护","How we protect it","保護の方法","보호 방법","Cómo los protegemos","Como protegemos","हम इसे कैसे सुरक्षित रखते हैं","Cara kami melindunginya"],"p_safe":["全程加密連線傳輸，資料庫只有我們能存取，卡號不經過我們的系統。","全程使用加密连接传输，数据库只有我们能访问，卡号不经过我们的系统。","Everything travels over encrypted connections, only we can access the database, and card numbers never pass through our systems.","通信はすべて暗号化された接続で行い、データベースにアクセスできるのは私たちだけです。カード番号が私たちのシステムを通ることはありません。","모든 전송은 암호화된 연결로 이루어지며, 데이터베이스에는 저희만 접근할 수 있고, 카드 번호는 저희 시스템을 거치지 않습니다.","Todo viaja por conexiones cifradas, solo nosotros podemos acceder a la base de datos y los números de tarjeta nunca pasan por nuestros sistemas.","Tudo trafega por conexões criptografadas, só nós temos acesso ao banco de dados e os números de cartão nunca passam pelos nossos sistemas.","सारा डेटा एन्क्रिप्टेड कनेक्शन से जाता है, डेटाबेस तक सिर्फ़ हमारी पहुँच है, और कार्ड नंबर कभी हमारे सिस्टम से होकर नहीं गुज़रते।","Semua data dihantar melalui sambungan yang disulitkan, hanya kami yang boleh mengakses pangkalan data, dan nombor kad tidak pernah melalui sistem kami."],"p_change_h":["政策變更","政策变更","Changes","ポリシーの変更","방침 변경","Cambios","Alterações","बदलाव","Perubahan"],"p_change":["內容修改時會更新本頁上方的日期。","内容修改时会更新本页上方的日期。","When this page changes, we update the date at the top.","内容を変更したときは、このページ上部の日付を更新します。","내용이 변경되면 이 페이지 상단의 날짜를 업데이트합니다.","Cuando cambie esta página, actualizaremos la fecha que aparece arriba.","Quando esta página mudar, atualizamos a data no topo.","जब यह पेज बदलेगा, हम सबसे ऊपर दी गई तारीख अपडेट कर देंगे।","Apabila halaman ini berubah, kami akan mengemas kini tarikh di bahagian atas."],"contact_h":["聯絡我們","联系我们","Contact","お問い合わせ","문의하기","Contacto","Contato","संपर्क","Hubungi kami"],"contact":["退貨、退款或個資相關的問題，都可以寫信或來電。","退货、退款或个人信息相关的问题，都可以发邮件或来电。","For returns, refunds or anything about your data, email or call us.","返品、返金、個人情報に関するご質問は、メールまたはお電話でお気軽にどうぞ。","반품, 환불 또는 개인정보 관련 문의는 이메일이나 전화로 연락해 주세요.","Para devoluciones, reembolsos o cualquier cuestión sobre tus datos, escríbenos o llámanos.","Para devoluções, reembolsos ou qualquer assunto sobre seus dados, mande um e-mail ou ligue para nós.","रिटर्न, रिफ़ंड या अपने डेटा से जुड़ी किसी भी बात के लिए हमें ईमेल करें या कॉल करें।","Untuk pemulangan, bayaran balik atau apa-apa berkaitan data anda, e-mel atau telefon kami."]};</script>
+<script>// ok-i18n: imokahhhh.com 共用多國語言。順序 = 網址 ?lang= → 使用者上次選的（全站共用 ok-lang）→ 瀏覽器語言 → English
+// 用法：頁面先放一段 inline script 設定 window.OK_I18N = { key: [9 個語言] }（順序同 LANGS），再放這支程式。
+// 標記：data-i="key"（換 textContent；key 以 ! 結尾換 innerHTML）、data-ia="aria-label:key;title:key2"（換屬性）。
+// 特殊 key：_title（document.title）、_desc（meta description）。
+(function () {
+  var D = window.OK_I18N || {};
+  var LANGS = ['zh-Hant', 'zh-Hans', 'en', 'ja', 'ko', 'es', 'pt', 'hi', 'ms'];
+  var NAMES = { 'zh-Hant': '繁體中文', 'zh-Hans': '简体中文', en: 'English', ja: '日本語', ko: '한국어', es: 'Español', pt: 'Português', hi: 'हिन्दी', ms: 'Bahasa Melayu' };
+  var SHORT = { 'zh-Hant': '繁中', 'zh-Hans': '简中', en: 'EN', ja: '日本語', ko: '한국어', es: 'ES', pt: 'PT', hi: 'हिं', ms: 'MS' };
+  var cur = 'zh-Hant';
+  function norm(t) {
+    t = String(t || '').toLowerCase();
+    if (t.indexOf('zh') === 0) return /hant|-tw|-hk|-mo/.test(t) ? 'zh-Hant' : 'zh-Hans';
+    var b = t.split('-')[0];
+    if (b === 'id') return 'ms';
+    return LANGS.indexOf(b) >= 0 ? b : null;
+  }
+  function detect() {
+    var q = /[?&]lang=([\w-]+)/.exec(location.search);
+    if (q) { var n = LANGS.indexOf(q[1]) >= 0 ? q[1] : norm(q[1]); if (n) return n; }
+    try {
+      var saved = localStorage.getItem('ok-lang') || localStorage.getItem('bk-lang');
+      if (LANGS.indexOf(saved) >= 0) return saved;
+    } catch (e) {}
+    var list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    for (var i = 0; i < list.length; i++) { var l = norm(list[i]); if (l) return l; }
+    return 'en';
+  }
+  function t(key, lang) {
+    var v = D[key]; if (!v) return '';
+    var s = v[LANGS.indexOf(lang || cur)];
+    return s == null || s === '' ? (v[2] || v[0]) : s;   // 缺翻譯時退回英文，再退回繁中
+  }
+  function fmt(s, vars) { return String(s).replace(/\{(\w+)\}/g, function (m, k) { return vars && k in vars ? vars[k] : m; }); }
+  function apply(lang) {
+    cur = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i]').forEach(function (el) {
+      var k = el.getAttribute('data-i'), v = t(k);
+      if (!v) return;
+      if (k.slice(-1) === '!') el.innerHTML = v; else el.textContent = v;
+    });
+    document.querySelectorAll('[data-ia]').forEach(function (el) {
+      el.getAttribute('data-ia').split(';').forEach(function (pair) {
+        var p = pair.split(':'); if (p.length === 2 && D[p[1]]) el.setAttribute(p[0].trim(), t(p[1].trim()));
+      });
+    });
+    if (D._title) document.title = t('_title');
+    var md = document.querySelector('meta[name="description"]'); if (md && D._desc) md.setAttribute('content', t('_desc'));
+    var c = document.getElementById('langCur'); if (c) { c.textContent = SHORT[lang]; }
+    var b = document.getElementById('langBtn'); if (b) b.setAttribute('aria-label', 'Language: ' + NAMES[lang]);
+    document.querySelectorAll('#langMenu [role="menuitemradio"]').forEach(function (x) { x.setAttribute('aria-checked', String(x.getAttribute('lang') === lang)); });
+    document.dispatchEvent(new CustomEvent('ok:lang', { detail: lang }));
+  }
+  window.OK = { t: t, fmt: fmt, lang: function () { return cur; }, apply: apply, LANGS: LANGS };
+
+  // 語言選單：地球圖示 + 簡稱，點開是各語言的原文名稱
+  var btn = document.getElementById('langBtn'), menu = document.getElementById('langMenu'), wrap = document.getElementById('lang');
+  if (btn && menu && wrap) {
+    LANGS.forEach(function (l) {
+      var li = document.createElement('li'); li.setAttribute('role', 'none');
+      var x = document.createElement('button');
+      x.type = 'button'; x.setAttribute('role', 'menuitemradio'); x.setAttribute('lang', l); x.textContent = NAMES[l];
+      x.addEventListener('click', function () {
+        try { localStorage.setItem('ok-lang', l); } catch (e) {}
+        close(); apply(l); btn.focus();
+      });
+      li.appendChild(x); menu.appendChild(li);
+    });
+    var open = function () { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); var c = menu.querySelector('[aria-checked="true"]') || menu.querySelector('button'); c.focus(); };
+    var close = function () { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+    btn.addEventListener('click', function () { if (menu.hidden) open(); else close(); });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !wrap.contains(e.target)) close(); });
+    menu.addEventListener('keydown', function (e) {
+      var items = Array.prototype.slice.call(menu.querySelectorAll('button')), i = items.indexOf(document.activeElement);
+      if (e.key === 'Escape') { close(); btn.focus(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    });
+  }
+  apply(detect());
+})();
+</script>
+</body>
+</html>
