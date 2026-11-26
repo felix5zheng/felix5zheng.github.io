@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src blob: data:; style-src 'unsafe-inline'; script-src 'sha256-BqhP9jXxDfEj3V9fcHAjmGnvGIL4goS1R9G3XcXcXPE='; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f7f5f1">
+<meta name="description" content="把選好的照片自動排成相本跨頁，照片不裁切，輸出成可以直接上傳印刷的大圖。">
+<title>相本自動排版</title>
+<style>
+/* Hallmark · shape: app screen · genre: editorial · theme: custom (imokahhhh style)
+ * paper: oklch(97.2% 0.006 82) · accent: oklch(19% 0.024 52) · display: SF Pro Display · body: SF Pro Text
+ * nav: glass top bar, the tool's name and one count · signature: the run of white spreads, each named like the file it becomes · states: empty, reading, error, full, exporting
+ * axes: light/grotesk-sans/neutral · posture: Restrained · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V3 · weakest: V, the house tokens are shared with every imokahhhh page by the owner's rule; the strip of spreads named 002-003 is what only this tool has */
+/* Hallmark · waive 29 · one glass bar, the nav, over a paper ground · the frosted nav is the imokahhhh house bar and the spreads scroll beneath it */
+:root {
+  color-scheme: light;
+  --color-paper: oklch(97.2% 0.006 82);
+  --color-band: oklch(93.6% 0.011 76);
+  --color-card: oklch(99% 0.004 82);
+  --color-tile: oklch(90.5% 0.013 74);
+  --color-ink: oklch(19% 0.024 52);
+  --color-ink-2: oklch(31% 0.018 54);
+  --color-muted: oklch(46% 0.014 60);
+  --color-hairline: oklch(83% 0.011 70);
+  --color-focus: var(--color-ink);
+  --color-accent: var(--color-ink);
+  --color-sheet: oklch(99.6% 0.003 82);
+  --color-demo-a: oklch(74% 0.045 62);
+  --color-demo-b: oklch(66% 0.04 150);
+  --color-demo-c: oklch(70% 0.04 235);
+  --color-demo-d: oklch(62% 0.05 28);
+  --color-demo-ink: oklch(99% 0.004 82);
+  --nav-glass: oklch(97.2% 0.006 82 / 0.8);
+  --ring: 0 0 0 1px oklch(19% 0.024 52 / 0.05);
+  --shadow-lift: 0 0 0 1px oklch(19% 0.024 52 / 0.06), 0 14px 30px -18px oklch(19% 0.024 52 / 0.35);
+  --shadow-sheet: 0 0 0 1px oklch(19% 0.024 52 / 0.07), 0 10px 24px -16px oklch(19% 0.024 52 / 0.3);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang TC", "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
+  --font-body: var(--font);
+  --text-xs: 12px; --text-sm: 14px; --text-md: 17px; --text-lg: 21px; --text-xl: 28px; --text-2xl: 40px;
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px; --space-xl: 28px; --space-2xl: 52px; --space-3xl: 90px;
+  --radius-xl: 28px; --radius-lg: 20px; --radius-md: 14px; --radius-pill: 9999px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1); --dur: 240ms; --dur-micro: 120ms;
+  --container: 1440px; --gutter: 40px; --bar-h: 52px;
+}
+@media (max-width: 60rem) { :root { --gutter: 22px; } }
+@media (max-width: 40rem) { :root { --gutter: 16px; --bar-h: 48px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { scroll-padding-top: var(--space-3xl); scrollbar-color: var(--color-muted) var(--color-paper); }
+::selection { background: var(--color-tile); color: var(--color-ink); }
+body { margin: 0; background: var(--color-paper); color: var(--color-ink-2); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.47; letter-spacing: -0.016em; -webkit-font-smoothing: antialiased; touch-action: manipulation; caret-color: var(--color-ink); }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 600; color: var(--color-ink); overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+button, input, select { font: inherit; letter-spacing: inherit; color: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* nav */
+.bar { position: sticky; top: 0; z-index: 20; height: var(--bar-h); background: var(--nav-glass); -webkit-backdrop-filter: saturate(160%) blur(20px); backdrop-filter: saturate(160%) blur(20px); box-shadow: 0 1px 0 var(--color-hairline); }
+.bar-in { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
+.bar-name { font-family: var(--font-display); font-size: 19px; font-weight: 600; letter-spacing: 0.012em; color: var(--color-ink); white-space: nowrap; }
+.bar-count { font-size: var(--text-xs); color: var(--color-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
+/* controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 var(--space-lg); border: 1px solid var(--color-ink); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); font-size: var(--text-sm); font-weight: 500; white-space: nowrap; cursor: pointer; transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur-micro) var(--ease); }
+.btn:hover { background: var(--color-ink); color: var(--color-paper); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; transform: none; background: transparent; color: var(--color-ink); }
+.btn[aria-busy="true"] { cursor: progress; }
+.btn--quiet { border-color: var(--color-hairline); font-weight: 400; }
+.btn--quiet:hover { border-color: var(--color-ink); }
+.btn--small { min-height: 32px; padding: 0 var(--space-sm); font-size: var(--text-xs); position: relative; }
+.btn--small::after { content: ""; position: absolute; inset: -6px 0; }
+.btn--armed { background: var(--color-ink); color: var(--color-paper); }
+.field { display: inline-flex; align-items: center; gap: var(--space-xs); font-size: var(--text-sm); color: var(--color-muted); white-space: nowrap; }
+.field select { min-height: 40px; padding: 0 var(--space-xl) 0 var(--space-md); border: 1px solid var(--color-hairline); border-radius: var(--radius-pill); background: var(--color-card); color: var(--color-ink); font-size: var(--text-sm); cursor: pointer; transition: border-color var(--dur) var(--ease); }
+.field select:hover { border-color: var(--color-ink); }
+.field select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* empty state */
+.empty { padding-block: var(--space-2xl); }
+.drop { display: grid; justify-items: start; gap: var(--space-md); padding: var(--space-2xl) var(--space-xl); border-radius: var(--radius-xl); background: var(--color-band); transition: box-shadow var(--dur) var(--ease); }
+.drop h2 { font-size: var(--text-2xl); line-height: 1.1; letter-spacing: -0.022em; }
+.drop p { font-size: var(--text-lg); line-height: 1.4; max-width: 34em; }
+.drop-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xs); }
+body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px var(--color-ink); }
+@media (max-width: 40rem) { .drop { padding: var(--space-xl) var(--space-lg); } .drop h2 { font-size: var(--text-xl); } .drop p { font-size: var(--text-md); } }
+
+/* toolbar */
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md); padding-block: var(--space-lg) var(--space-sm); }
+.tools-push { margin-left: auto; display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.status { min-height: 1.47em; padding-bottom: var(--space-lg); font-size: var(--text-sm); color: var(--color-muted); }
+.status strong { font-weight: 600; color: var(--color-ink); }
+.status[data-tone="error"] { color: var(--color-ink); font-weight: 500; }
+.meter { height: 3px; margin-bottom: var(--space-md); border-radius: var(--radius-pill); background: var(--color-tile); overflow: hidden; }
+.meter > span { display: block; height: 100%; background: var(--color-ink); transform-origin: left center; transform: scaleX(0); transition: transform var(--dur) linear; }
+@media (max-width: 60rem) { .tools-push { margin-left: 0; } }
+
+/* sheets */
+.sheets-band { background: var(--color-band); padding-block: var(--space-xl) var(--space-2xl); transition: box-shadow var(--dur) var(--ease); }
+.sheets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: var(--space-xl) var(--space-lg); }
+.cell { min-width: 0; display: grid; gap: var(--space-xs); align-content: start; }
+.cell-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2xs) var(--space-sm); min-height: 32px; }
+.cell-name { font-size: var(--text-sm); font-weight: 600; color: var(--color-ink); }
+.cell-mix { font-size: var(--text-xs); color: var(--color-muted); }
+.cell-ctl { margin-left: auto; display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.frame { display: flex; }
+.frame--right { justify-content: flex-end; }
+.sheet { position: relative; width: 100%; aspect-ratio: 2 / 1; background: var(--color-sheet); box-shadow: var(--shadow-sheet); overflow: hidden; }
+.sheet--single { width: 50%; aspect-ratio: 1 / 1; }
+.sheet::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--color-hairline); opacity: 0.6; pointer-events: none; }
+.sheet--single::after { content: none; }
+.ph { position: absolute; padding: 0; border: 0; border-radius: 0; background-color: var(--color-tile); background-size: cover; background-position: center; cursor: pointer; transition: opacity var(--dur) var(--ease); }
+.ph:hover { opacity: 0.86; }
+.ph:focus-visible { outline: 3px solid var(--color-ink); outline-offset: -3px; z-index: 2; }
+.ph[aria-pressed="true"] { outline: 3px solid var(--color-ink); outline-offset: -3px; z-index: 2; opacity: 1; }
+.ph.demo { display: grid; place-items: center; color: var(--color-demo-ink); font-size: var(--text-sm); font-weight: 600; }
+.ph.demo[data-c="0"] { background-color: var(--color-demo-a); }
+.ph.demo[data-c="1"] { background-color: var(--color-demo-b); }
+.ph.demo[data-c="2"] { background-color: var(--color-demo-c); }
+.ph.demo[data-c="3"] { background-color: var(--color-demo-d); }
+.ph.low::before { content: "解析度偏低"; position: absolute; left: var(--space-xs); top: var(--space-xs); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-pill); background: var(--color-ink); color: var(--color-paper); font-size: var(--text-xs); font-weight: 500; }
+
+/* rules */
+.rules { padding-block: var(--space-2xl) var(--space-3xl); }
+.rules summary { display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; color: var(--color-ink); list-style: none; text-decoration: underline; text-decoration-color: var(--color-hairline); text-underline-offset: 0.2em; transition: text-decoration-color var(--dur) var(--ease); }
+.rules summary::-webkit-details-marker { display: none; }
+.rules summary:hover { text-decoration-color: var(--color-ink); }
+.rules-body { display: grid; gap: var(--space-xl); padding-top: var(--space-lg); }
+.rules-facts { display: grid; gap: var(--space-xs); padding: 0; margin: 0; list-style: none; max-width: 46em; font-size: var(--text-sm); }
+.rules-facts li { padding-left: var(--space-md); border-left: 1px solid var(--color-hairline); }
+.rules-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.rules-table th { text-align: left; font-weight: 600; color: var(--color-ink); padding: var(--space-xs) var(--space-sm) var(--space-xs) 0; border-bottom: 1px solid var(--color-hairline); white-space: nowrap; }
+.rules-table td { padding: var(--space-sm) var(--space-sm) var(--space-sm) 0; border-bottom: 1px solid var(--color-hairline); vertical-align: top; }
+.rules-wrap { overflow-x: auto; }
+.minis { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-md); }
+.mini { display: grid; gap: var(--space-2xs); justify-items: start; }
+.mini-sheet { position: relative; width: 132px; aspect-ratio: 2 / 1; background: var(--color-sheet); box-shadow: var(--ring); }
+.mini-sheet > i { position: absolute; background: var(--color-muted); opacity: 0.55; }
+.mini-pct { font-size: var(--text-xs); color: var(--color-muted); }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+@media (hover: none) { .ph:hover { opacity: 1; } }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="container bar-in">
+    <span class="bar-name">相本自動排版</span>
+    <span class="bar-count num" id="count" aria-live="polite"></span>
+  </div>
+</header>
+<main>
+  <h1 class="visually-hidden">相本自動排版</h1>
+  <input id="file" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp" multiple tabindex="-1" aria-hidden="true">
+
+  <section id="empty" class="empty container" aria-label="放進照片">
+    <div class="drop">
+      <h2>把選好的照片拖進來</h2>
+      <p>照你過去相本的排法自動排成跨頁：照片不裁切、白底、留一道細縫。排好直接輸出成 001、002-003 這樣命名的大圖，上傳就能下單。</p>
+      <div class="drop-actions">
+        <button class="btn" type="button" id="pick">選照片</button>
+        <button class="btn btn--quiet" type="button" id="demo">先用色塊試排</button>
+      </div>
+    </div>
+    <noscript><p>這個工具要開啟瀏覽器的 JavaScript 才能排版。</p></noscript>
+  </section>
+
+  <section id="work" aria-label="排版結果" hidden>
+    <div class="container">
+      <div class="tools">
+        <label class="field">頁數
+          <select id="pages"></select>
+        </label>
+        <label class="field">順序
+          <select id="sort">
+            <option value="name">照檔名</option>
+            <option value="time">照拍攝時間</option>
+          </select>
+        </label>
+        <label class="field">輸出尺寸
+          <select id="size">
+            <option value="4000">跨頁 8000 × 4000</option>
+            <option value="3000">跨頁 6000 × 3000</option>
+          </select>
+        </label>
+        <label class="field" id="how-field" hidden>存成
+          <select id="how">
+            <option value="dir">資料夾</option>
+            <option value="zip">壓縮檔</option>
+          </select>
+        </label>
+        <div class="tools-push">
+          <button class="btn btn--quiet" type="button" id="clear">清空</button>
+          <button class="btn btn--quiet" type="button" id="more">加照片</button>
+          <button class="btn btn--quiet" type="button" id="again">重新排版</button>
+          <button class="btn" type="button" id="export">輸出大圖</button>
+        </div>
+      </div>
+      <div class="meter" id="meter" hidden><span></span></div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
+    <div class="sheets-band">
+      <div class="container">
+        <div class="sheets" id="sheets"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rules container" aria-label="排版規則">
+    <details id="rules">
+      <summary>這套排法是怎麼來的</summary>
+      <div class="rules-body">
+        <ul class="rules-facts">
+          <li>來源是你自己排過的相本：2024 年 7 月到 2026 年 11 月共 132 本、1,784 個跨頁，逐張量出每張照片的位置。更早的相本圖檔在印刷網站上已經讀不到，沒有算進來。</li>
+          <li>照片一律不裁切，維持橫 3:2、直 2:3 原比例；白底；照片之間留 1 公釐細縫。</li>
+          <li>同一組照片排成等高的一排，兩張橫的可以上下疊成一格，整組放大到剛好塞滿跨頁後置中。四分之三的跨頁是這種排法。</li>
+          <li>另外四分之一是左右頁各排一組，離裁切邊 11 公釐；直幅單張多半靠外側，疊起來的橫幅置中。</li>
+          <li>132 本裡有 98 本是 24 頁：首頁、11 個跨頁、末頁，跨頁裡大約 29 張照片，平均一個跨頁 2.6 張。所以照片數量合適時預設排 24 頁。相鄰兩個跨頁很少用同一種版型。</li>
+        </ul>
+        <div class="rules-wrap">
+          <table class="rules-table">
+            <thead><tr><th scope="col">這個跨頁有</th><th scope="col">出現次數</th><th scope="col">會排成（百分比是你過去的選擇）</th></tr></thead>
+            <tbody id="rules-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </section>
+</main>
+<script>
+(() => {
+  'use strict';
+  if (window.top !== window.self) return;
+  // ---------------------------------------------------------------------
+  // 量出來的版面尺寸（以跨頁 8000 × 4000 像素為基準，1 公釐約 13 像素）
+  const REF = { H: 4000, PW: 4000, g: 13, m: 188, mi: 150, insetY: 240, bleed: 39 };
+
+  // 每種「橫 n 直 m」組合，過去實際用過的版型與次數
+  // S：整個跨頁排成一排；PG：左右頁各一組。格子：P 直幅、L 橫幅、C 兩張橫幅上下疊
+  const TPL = {
+    L1P1: [{ w: 118, S: ['L', 'P'] }, { w: 88, S: ['P', 'L'] }, { w: 18, PG: [['P'], ['L']] }, { w: 8, PG: [['L'], ['P']] }],
+    L0P2: [{ w: 150, S: ['P', 'P'] }, { w: 69, PG: [['P'], ['P']] }],
+    L1P2: [{ w: 101, S: ['L', 'P', 'P'] }, { w: 86, S: ['P', 'P', 'L'] }, { w: 8, PG: [['P', 'P'], ['L']] }, { w: 3, PG: [['L'], ['P', 'P']] }],
+    L0P3: [{ w: 75, PG: [['P'], ['P', 'P']] }, { w: 58, PG: [['P', 'P'], ['P']] }, { w: 55, S: ['P', 'P', 'P'] }],
+    L2P0: [{ w: 164, S: ['L', 'L'] }, { w: 4, PG: [['L'], ['L']] }],
+    L4P0: [{ w: 80, S: ['C', 'C'] }, { w: 39, PG: [['C'], ['C']] }],
+    L3P0: [{ w: 53, S: ['L', 'C'] }, { w: 31, S: ['C', 'L'] }, { w: 11, PG: [['L'], ['C']] }, { w: 6, PG: [['C'], ['L']] }],
+    L2P1: [{ w: 31, S: ['C', 'P'] }, { w: 16, S: ['P', 'C'] }, { w: 12, PG: [['P'], ['C']] }, { w: 8, PG: [['C'], ['P']] }],
+    L0P4: [{ w: 29, S: ['P', 'P', 'P', 'P'] }, { w: 10, PG: [['P', 'P'], ['P', 'P']] }],
+    L2P2: [{ w: 7, PG: [['P', 'P'], ['C']] }, { w: 5, PG: [['C'], ['P', 'P']] }, { w: 5, S: ['C', 'P', 'P'] }, { w: 4, S: ['P', 'P', 'C'] }],
+    L1P0: [{ w: 15, S: ['L'] }, { w: 6, S: ['L'], inset: true }],
+    L8P0: [{ w: 7, S: ['C', 'C', 'C', 'C'] }],
+    L2P3: [{ w: 1, PG: [['P', 'P', 'P'], ['C']] }, { w: 1, S: ['C', 'P', 'P', 'P'] }],
+    L4P2: [{ w: 2, S: ['C', 'C', 'P', 'P'] }, { w: 1, PG: [['C', 'C'], ['P', 'P']] }],
+    L3P1: [{ w: 1, S: ['C', 'P', 'L'] }, { w: 1, S: ['L', 'C', 'P'] }],
+    L6P0: [{ w: 2, S: ['C', 'C', 'C'] }]
+  };
+  const COMP_W = { L1P1: 241, L0P2: 225, L1P2: 204, L0P3: 190, L2P0: 169, L4P0: 120, L3P0: 102, L2P1: 69, L0P4: 39, L2P2: 23, L1P0: 21, L8P0: 7, L2P3: 4, L4P2: 3, L3P1: 2, L6P0: 2 };
+  const RULE_ORDER = ['L1P1', 'L0P2', 'L1P2', 'L0P3', 'L2P0', 'L4P0', 'L3P0', 'L2P1', 'L0P4', 'L2P2', 'L1P0'];
+  const PER_SPREAD = 2.64;
+  const PRINT_WHITE = '#ffffff';   // 輸出的紙是純白，跟量到的檔案一致
+  const MODES = ['A', 'B', 'C'];
+  const MODE_NAME = { A: '靠外', B: '置中', C: '出血' };
+
+  // ---------------------------------------------------------------------
+  // 版面計算：每個節點的寬 = a × 高 + b
+  const sum = (arr, f) => arr.reduce((s, v) => s + f(v), 0);
+  const leaf = (ph) => ({ t: 'ph', ph, a: ph.ar, b: 0 });
+  const rowOf = (kids) => ({ t: 'row', kids, a: sum(kids, (k) => k.a), b: sum(kids, (k) => k.b) + REF.g * (kids.length - 1) });
+  const colOf = (kids) => { const a = 1 / sum(kids, (k) => 1 / k.a); return { t: 'col', kids, a, b: (sum(kids, (k) => k.b / k.a) - REF.g * (kids.length - 1)) * a }; };
+  function place(node, x, y, h, out) {
+    if (node.t === 'ph') { out.push({ ph: node.ph, x, y, w: node.a * h, h }); return; }
+    if (node.t === 'row') { for (const k of node.kids) { place(k, x, y, h, out); x += k.a * h + k.b + REF.g; } return; }
+    const w = node.a * h + node.b;
+    for (const k of node.kids) { const hk = (w - k.b) / k.a; place(k, x, y, hk, out); y += hk + REF.g; }
+  }
+  function fit(node, box, ax, bleedSnap) {
+    const hW = (box.w - node.b) / node.a;
+    let h = Math.min(box.h, hW);
+    // 只差一點點就滿版時（小於 3 公釐出血），直接放大到滿版，免得邊上留一條細白線
+    if (bleedSnap) { if (hW < box.h && (box.h - hW) / 2 <= bleedSnap) h = box.h; else if (box.h < hW && (box.w - (node.a * box.h + node.b)) / 2 <= bleedSnap) h = hW; }
+    const w = node.a * h + node.b;
+    const out = [];
+    place(node, box.x + (box.w - w) * ax, box.y + (box.h - h) / 2, h, out);
+    return { rects: out, tall: h >= box.h - 0.5 };
+  }
+  const snap = (rects) => rects.map((r) => { const x = Math.round(r.x), y = Math.round(r.y); return { ph: r.ph, x, y, w: Math.round(r.x + r.w) - x, h: Math.round(r.y + r.h) - y }; });
+  function cellsToRow(cells, Ls, Ps) {
+    const kids = cells.map((c) => c === 'P' ? leaf(Ps.shift()) : c === 'L' ? leaf(Ls.shift()) : colOf([leaf(Ls.shift()), leaf(Ls.shift())]));
+    return kids.length === 1 ? kids[0] : rowOf(kids);
+  }
+  function pageRects(node, side, mode, otherTall) {
+    const m = REF.m, mi = REF.mi, PW = REF.PW, safeW = PW - m - mi, H = REF.H - 2 * m;
+    const safe = side === 'L' ? { x: m, y: m, w: safeW, h: H } : { x: PW + mi, y: m, w: safeW, h: H };
+    const bleed = side === 'L' ? { x: 0, y: m, w: PW - mi, h: H } : { x: PW + mi, y: m, w: PW - mi, h: H };
+    const probe = fit(node, safe, 0.5);
+    if (probe.tall) {
+      if (node.t !== 'ph') return fit(node, bleed, 0.5).rects;              // 疊起來的橫幅：置中
+      if (mode === 'A' && !(side === 'R' && otherTall)) return fit(node, safe, side === 'L' ? 0 : 1).rects; // 直幅單張靠外
+      return probe.rects;
+    }
+    return mode === 'C' ? fit(node, bleed, 0.5).rects : probe.rects;        // 寬的一組：頁邊內，或出血到外緣
+  }
+  function layoutSpread(photos, tpl, mode) {
+    const Ls = photos.filter((p) => p.cls === 'L'), Ps = photos.filter((p) => p.cls === 'P');
+    if (tpl.S) {
+      const box = tpl.inset ? { x: 0, y: REF.insetY, w: 2 * REF.PW, h: REF.H - 2 * REF.insetY } : { x: 0, y: 0, w: 2 * REF.PW, h: REF.H };
+      return snap(fit(cellsToRow(tpl.S, Ls, Ps), box, 0.5, tpl.inset ? 0 : REF.bleed).rects);
+    }
+    const left = cellsToRow(tpl.PG[0], Ls, Ps), right = cellsToRow(tpl.PG[1], Ls, Ps);
+    const tallLeaf = (n) => n.t === 'ph' && n.a < 1;
+    return snap(pageRects(left, 'L', mode, tallLeaf(right)).concat(pageRects(right, 'R', mode, tallLeaf(left))));
+  }
+  function layoutSingle(photo, variant) {
+    const m = REF.m, box = variant === 'inset' ? { x: m, y: m, w: REF.PW - 2 * m, h: REF.H - 2 * m } : { x: 0, y: 0, w: REF.PW, h: REF.H };
+    return snap(fit(leaf(photo), box, 0.5).rects);
+  }
+  const compOf = (photos) => { const l = photos.filter((p) => p.cls === 'L').length; return 'L' + l + 'P' + (photos.length - l); };
+  const tplKey = (t) => t.S ? 'S:' + t.S.join('') + (t.inset ? 'i' : '') : 'PG:' + t.PG[0].join('') + '|' + t.PG[1].join('');
+  function templatesFor(photos) {
+    const key = compOf(photos);
+    if (TPL[key]) return TPL[key].slice().sort((a, b) => b.w - a.w);
+    const l = photos.filter((p) => p.cls === 'L').length, p = photos.length - l, cells = [];   // 沒看過的組合：照同一套邏輯補位
+    for (let i = 0; i < Math.floor(l / 2); i++) cells.push('C');
+    if (l % 2) cells.unshift('L');
+    for (let i = 0; i < p; i++) cells.push('P');
+    return cells.join('') === cells.slice().reverse().join('') ? [{ w: 1, S: cells }] : [{ w: 1, S: cells }, { w: 1, S: cells.slice().reverse() }];
+  }
+
+  // ---------------------------------------------------------------------
+  // 狀態
+  const $ = (id) => document.getElementById(id);
+  const S = { photos: [], byId: new Map(), groups: [], title: null, end: null, tv: 0, ev: 0, seed: 1, pages: 'usual', sort: 'name', picked: null, busy: false, demo: false, skipped: 0 };
+  let uid = 0;
+  const rngOf = (seed) => { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
+  const pad3 = (n) => String(n).padStart(3, '0');
+
+  function setStatus(text, tone) { const el = $('status'); el.textContent = text; if (tone) el.dataset.tone = tone; else delete el.dataset.tone; }
+  function setMeter(v) { const m = $('meter'); if (v == null) { m.hidden = true; return; } m.hidden = false; m.firstElementChild.style.transform = 'scaleX(' + Math.max(0, Math.min(1, v)) + ')'; }
+  function setBusy(b) { S.busy = b; for (const id of ['export', 'again', 'more', 'clear', 'pages', 'sort', 'size', 'how']) $(id).disabled = b; $('export').setAttribute('aria-busy', b ? 'true' : 'false'); }
+
+  // ---------------------------------------------------------------------
+  // 讀照片
+  async function readExifTime(file) {
+    try {
+      const buf = await file.slice(0, 262144).arrayBuffer(), v = new DataView(buf);
+      if (v.getUint16(0) !== 0xFFD8) return 0;
+      let o = 2;
+      while (o + 4 < v.byteLength) {
+        const marker = v.getUint16(o), len = v.getUint16(o + 2);
+        if (marker === 0xFFE1 && v.getUint32(o + 4) === 0x45786966) {
+          const base = o + 10, le = v.getUint16(base) === 0x4949;
+          const u16 = (p) => v.getUint16(p, le), u32 = (p) => v.getUint32(p, le);
+          const findTag = (ifd, tag) => { const n = u16(ifd); for (let i = 0; i < n; i++) { const e = ifd + 2 + i * 12; if (u16(e) === tag) return e; } return 0; };
+          const ifd0 = base + u32(base + 4), exifPtr = findTag(ifd0, 0x8769);
+          const readDate = (e) => { if (!e) return 0; const p = base + u32(e + 8); let s = ''; for (let i = 0; i < 19; i++) s += String.fromCharCode(v.getUint8(p + i)); const mm = /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)/.exec(s); return mm ? new Date(+mm[1], +mm[2] - 1, +mm[3], +mm[4], +mm[5], +mm[6]).getTime() : 0; };
+          if (exifPtr) { const t = readDate(findTag(base + u32(exifPtr + 8), 0x9003)); if (t) return t; }
+          return readDate(findTag(ifd0, 0x0132));
+        }
+        if ((marker & 0xFF00) !== 0xFF00) break;
+        o += 2 + len;
+      }
+    } catch (e) { /* 讀不到就用檔案時間 */ }
+    return 0;
+  }
+  async function addFiles(files) {
+    const list = Array.from(files).filter((f) => /^image\//.test(f.type) || /\.(jpe?g|png|webp)$/i.test(f.name));
+    if (!list.length) { if (!S.photos.length) return; setStatus('沒有可以用的圖檔。', 'error'); return; }
+    if (S.demo) resetAll();
+    $('empty').hidden = true; $('work').hidden = false; setBusy(true);
+    let bad = 0;
+    for (let i = 0; i < list.length; i++) {
+      const f = list[i];
+      setStatus('讀取照片 ' + (i + 1) + ' / ' + list.length); setMeter((i + 1) / list.length);
+      try {
+        const bm = await createImageBitmap(f, { imageOrientation: 'from-image' });
+        const k = Math.min(1, 720 / Math.max(bm.width, bm.height));
+        const c = document.createElement('canvas'); c.width = Math.round(bm.width * k); c.height = Math.round(bm.height * k);
+        const g = c.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(bm, 0, 0, c.width, c.height);
+        const blob = await new Promise((res) => c.toBlob(res, 'image/jpeg', 0.82));
+        const ph = { id: 'p' + (++uid), file: f, name: f.name, w: bm.width, h: bm.height, ar: bm.width / bm.height, time: (await readExifTime(f)) || f.lastModified || 0, url: URL.createObjectURL(blob) };
+        ph.cls = ph.ar >= 1.05 ? 'L' : 'P';
+        bm.close(); S.photos.push(ph); S.byId.set(ph.id, ph);
+      } catch (e) { bad++; }
+    }
+    S.skipped = bad; setBusy(false); setMeter(null);
+    autoLayout();
+  }
+  function addDemo() {
+    resetAll(); S.demo = true;
+    const rnd = rngOf(20261126);
+    for (let i = 0; i < 29; i++) {
+      const L = rnd() < 0.48, ph = { id: 'p' + (++uid), file: null, name: '色塊 ' + (i + 1), w: L ? 6000 : 4000, h: L ? 4000 : 6000, time: i, url: '', tone: i % 4, no: i + 1 };
+      ph.ar = ph.w / ph.h; ph.cls = L ? 'L' : 'P'; S.photos.push(ph); S.byId.set(ph.id, ph);
+    }
+    $('empty').hidden = true; $('work').hidden = false; autoLayout();
+  }
+  function resetAll() {
+    for (const p of S.photos) if (p.url) URL.revokeObjectURL(p.url);
+    S.photos = []; S.byId.clear(); S.groups = []; S.title = S.end = null; S.picked = null; S.demo = false; S.skipped = 0; S.pages = 'usual';
+  }
+
+  // ---------------------------------------------------------------------
+  // 自動分組：把中間的照片切成剛好 n 個跨頁，挑過去最常出現的組合
+  function partition(mid, n, rnd) {
+    const M = mid.length, MAX = 8;
+    if (n < 1 || M < n) return null;
+    const preL = [0]; for (const p of mid) preL.push(preL[preL.length - 1] + (p.cls === 'L' ? 1 : 0));
+    const gaps = []; for (let i = 1; i < M; i++) gaps.push(Math.abs(mid[i].time - mid[i - 1].time));
+    const sorted = gaps.slice().sort((a, b) => a - b), medGap = sorted.length ? sorted[sorted.length >> 1] : 0;
+    const cutBonus = (i) => (i <= 0 || i >= M || !medGap || S.sort !== 'time') ? 0 : Math.min(1.5, Math.log(1 + gaps[i - 1] / medGap)) * 0.5;
+    const score = (i, j) => { const l = preL[j] - preL[i], len = j - i, w = COMP_W['L' + l + 'P' + (len - l)] || (len <= 6 ? 0.3 : 0); return w ? Math.log(w) + (rnd() - 0.5) * 1.2 : -Infinity; };
+    const dp = Array.from({ length: n + 1 }, () => new Float64Array(M + 1).fill(-Infinity));
+    const from = Array.from({ length: n + 1 }, () => new Int32Array(M + 1).fill(-1));
+    dp[0][0] = 0;
+    for (let s = 1; s <= n; s++) for (let j = s; j <= M; j++) for (let len = 1; len <= MAX && len <= j; len++) {
+      const i = j - len; if (dp[s - 1][i] === -Infinity) continue;
+      const v = dp[s - 1][i] + score(i, j) + cutBonus(j);
+      if (v > dp[s][j]) { dp[s][j] = v; from[s][j] = i; }
+    }
+    if (dp[n][M] === -Infinity) return null;
+    const cuts = []; let j = M;
+    for (let s = n; s >= 1; s--) { const i = from[s][j]; cuts.unshift(mid.slice(i, j)); j = i; }
+    return cuts;
+  }
+  function pickWeighted(list, rnd, avoidKey) {
+    let pool = list.filter((t) => tplKey(t) !== avoidKey); if (!pool.length) pool = list;
+    let r = rnd() * sum(pool, (t) => t.w);
+    for (const t of pool) { r -= t.w; if (r <= 0) return list.indexOf(t); }
+    return list.indexOf(pool[pool.length - 1]);
+  }
+  function makeGroup(photos, rnd, prevKey) {
+    const tpls = templatesFor(photos), ti = rnd ? pickWeighted(tpls, rnd, prevKey) : 0, r = rnd ? rnd() : 0;
+    return { ids: photos.map((p) => p.id), tpls, ti, mode: r < 0.5 ? 'A' : r < 0.75 ? 'B' : 'C', comp: compOf(photos) };
+  }
+  function refreshGroup(g) {
+    const photos = g.ids.map((id) => S.byId.get(id)), comp = compOf(photos);
+    if (comp !== g.comp) { g.tpls = templatesFor(photos); g.ti = 0; g.comp = comp; }
+  }
+  function sortPhotos() {
+    const cmp = S.sort === 'time' ? (a, b) => (a.time - b.time) || a.name.localeCompare(b.name, undefined, { numeric: true }) : (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true });
+    if (!S.demo) S.photos.sort(cmp);
+  }
+  function autoLayout() {
+    S.picked = null; sortPhotos();
+    const N = S.photos.length;
+    if (N < 3) { S.groups = []; S.title = S.end = null; render(); setStatus('至少要 3 張照片：首頁、一個跨頁、末頁各一張。現在有 ' + N + ' 張。', 'error'); return; }
+    const mid = S.photos.slice(1, -1), rnd = rngOf(S.seed * 7919 + N);
+    const autoN = Math.max(1, Math.min(mid.length, Math.round(mid.length / PER_SPREAD)));
+    if (S.pages === 'usual') S.pages = (mid.length >= 20 && mid.length <= 38) ? 24 : 'auto';   // 最常做的是 24 頁
+    let n = S.pages === 'auto' ? autoN : (S.pages - 2) / 2, note = '';
+    let cuts = partition(mid, n, rnd);
+    if (!cuts) { note = N + ' 張照片排不進 ' + S.pages + ' 頁，先改用 ' + (autoN * 2 + 2) + ' 頁。'; n = autoN; S.pages = 'auto'; cuts = partition(mid, n, rnd); }
+    for (let k = n; !cuts && k >= 1; k--) cuts = partition(mid, k, rnd);
+    S.title = S.photos[0].id; S.end = S.photos[N - 1].id; S.tv = 0; S.ev = 0; S.groups = [];
+    let prev = '';
+    for (const c of cuts) { const g = makeGroup(c, rnd, prev); prev = tplKey(g.tpls[g.ti]); S.groups.push(g); }
+    render(note);
+  }
+
+  // ---------------------------------------------------------------------
+  // 每一張要輸出的頁
+  const singleVariants = (ph, isTitle) => ph.cls === 'P' ? (isTitle ? ['inset', 'full'] : ['full', 'inset']) : ['full', 'inset'];
+  function sheets() {
+    const out = [], pages = S.groups.length * 2 + 2;
+    if (!S.title) return out;
+    const t = S.byId.get(S.title), e = S.byId.get(S.end);
+    out.push({ kind: 'title', name: pad3(1), single: true, rects: layoutSingle(t, singleVariants(t, true)[S.tv]) });
+    S.groups.forEach((g, i) => {
+      const photos = g.ids.map((id) => S.byId.get(id));
+      out.push({ kind: 'spread', gi: i, name: pad3(i * 2 + 2) + '-' + pad3(i * 2 + 3), single: false, rects: layoutSpread(photos, g.tpls[g.ti], g.mode) });
+    });
+    out.push({ kind: 'end', name: pad3(pages), single: true, rects: layoutSingle(e, singleVariants(e, false)[S.ev]) });
+    return out;
+  }
+
+  // ---------------------------------------------------------------------
+  // 畫面
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const smallBtn = (label, fn, disabled) => { const b = el('button', 'btn btn--quiet btn--small', label); b.type = 'button'; b.disabled = !!disabled || S.busy; b.addEventListener('click', fn); return b; };
+  const mixText = (photos) => { const l = photos.filter((p) => p.cls === 'L').length, p = photos.length - l; return (l ? '橫 ' + l : '') + (l && p ? '、' : '') + (p ? '直 ' + p : ''); };
+  function render(note) {
+    const host = $('sheets'); host.textContent = '';
+    const list = sheets(), outH = +$('size').value, k = outH / REF.H;
+    let low = 0;
+    for (const sh of list) {
+      const cell = el('div', 'cell'), head = el('div', 'cell-head'), ctl = el('div', 'cell-ctl');
+      head.append(el('span', 'cell-name num', sh.name.replace('-', '–')));
+      if (sh.kind === 'spread') {
+        const g = S.groups[sh.gi], photos = g.ids.map((id) => S.byId.get(id)), last = sh.gi === S.groups.length - 1, tpl = g.tpls[g.ti];
+        head.append(el('span', 'cell-mix', mixText(photos)));
+        if (g.tpls.length > 1) ctl.append(smallBtn('換版型 ' + (g.ti + 1) + '/' + g.tpls.length, () => { g.ti = (g.ti + 1) % g.tpls.length; render(); }));
+        if (tpl.PG) ctl.append(smallBtn('對齊 ' + MODE_NAME[g.mode], () => { g.mode = MODES[(MODES.indexOf(g.mode) + 1) % 3]; render(); }));
+        ctl.append(smallBtn('多放一張', () => shift(sh.gi, 1), last || S.groups[sh.gi + 1].ids.length < 2 || g.ids.length >= 8));
+        ctl.append(smallBtn('少放一張', () => shift(sh.gi, -1), last || g.ids.length < 2 || S.groups[sh.gi + 1].ids.length >= 8));
+      } else {
+        head.append(el('span', 'cell-mix', sh.kind === 'title' ? '首頁' : '末頁'));
+        ctl.append(smallBtn('換版型', () => { if (sh.kind === 'title') S.tv = 1 - S.tv; else S.ev = 1 - S.ev; render(); }));
+      }
+      head.append(ctl);
+      const frame = el('div', 'frame' + (sh.kind === 'title' ? ' frame--right' : '')), sheet = el('div', 'sheet' + (sh.single ? ' sheet--single' : ''));
+      sheet.setAttribute('role', 'group'); sheet.setAttribute('aria-label', (sh.single ? '單頁 ' : '跨頁 ') + sh.name);
+      const W = sh.single ? REF.PW : REF.PW * 2;
+      for (const r of sh.rects) {
+        const b = el('button', 'ph'); b.type = 'button'; b.dataset.id = r.ph.id; b.draggable = true;
+        b.style.left = (r.x / W * 100) + '%'; b.style.top = (r.y / REF.H * 100) + '%'; b.style.width = (r.w / W * 100) + '%'; b.style.height = (r.h / REF.H * 100) + '%';
+        b.setAttribute('aria-label', r.ph.name + '，點一下選取，再點另一張就交換位置'); b.setAttribute('aria-pressed', S.picked === r.ph.id ? 'true' : 'false');
+        b.dataset.x = r.x; b.dataset.y = r.y; b.dataset.w = r.w; b.dataset.h = r.h;
+        if (r.ph.url) b.style.backgroundImage = 'url("' + r.ph.url + '")'; else { b.classList.add('demo'); b.dataset.c = r.ph.tone; b.textContent = r.ph.no; }
+        if (r.ph.file && r.ph.w < r.w * k * 0.75) { b.classList.add('low'); low++; }
+        sheet.append(b);
+      }
+      frame.append(sheet); cell.append(head, frame); host.append(cell);
+    }
+    const pages = S.groups.length * 2 + 2;
+    $('count').textContent = !S.photos.length ? '' : S.title ? S.photos.length + ' 張照片，' + pages + ' 頁' : S.photos.length + ' 張照片';
+    fillPages(pages);
+    if (!list.length) return;
+    const bits = [];
+    if (note) bits.push(note);
+    bits.push(S.photos.length + ' 張照片排成 ' + pages + ' 頁：首頁、' + S.groups.length + ' 個跨頁、末頁。');
+    if (S.picked) bits.push('已選一張，再點另一張就交換；按 Esc 取消。');
+    if (S.skipped) bits.push('有 ' + S.skipped + ' 個檔案讀不了，已略過。');
+    if (low) bits.push('有 ' + low + ' 格的照片解析度偏低，印出來可能會糊。');
+    if (S.demo) bits.push('現在是色塊示範。');
+    setStatus(bits.join(''));
+  }
+  function fillPages(current) {
+    const sel = $('pages'); sel.textContent = '';
+    const o = el('option', '', '自動（一個跨頁約 2.6 張）'); o.value = 'auto'; sel.append(o);
+    for (let p = 20; p <= 80; p += 2) { const x = el('option', '', p + ' 頁'); x.value = String(p); sel.append(x); }
+    if (S.pages !== 'auto' && (current < 20 || current > 80) && current >= 4) { const x = el('option', '', current + ' 頁'); x.value = String(current); sel.append(x); }
+    sel.value = S.pages === 'auto' ? 'auto' : String(S.pages);
+    if (sel.value !== String(S.pages)) sel.value = 'auto';
+  }
+  function shift(gi, dir) {
+    const a = S.groups[gi], b = S.groups[gi + 1]; if (!b) return;
+    if (dir > 0) a.ids.push(b.ids.shift()); else b.ids.unshift(a.ids.pop());
+    refreshGroup(a); refreshGroup(b); render();
+  }
+  function holderOf(id) {
+    if (S.title === id) return { set: (v) => { S.title = v; S.tv = 0; } };
+    if (S.end === id) return { set: (v) => { S.end = v; S.ev = 0; } };
+    for (const g of S.groups) { const i = g.ids.indexOf(id); if (i >= 0) return { g, set: (v) => { g.ids[i] = v; } }; }
+    return null;
+  }
+  function swap(a, b) {
+    if (a === b) return;
+    const ha = holderOf(a), hb = holderOf(b); if (!ha || !hb) return;
+    ha.set(b); hb.set(a);
+    if (ha.g) refreshGroup(ha.g); if (hb.g) refreshGroup(hb.g);
+  }
+  $('sheets').addEventListener('click', (e) => {
+    const b = e.target.closest('.ph'); if (!b || S.busy) return;
+    const id = b.dataset.id;
+    if (!S.picked) S.picked = id; else { if (S.picked !== id) swap(S.picked, id); S.picked = null; }
+    render();
+    const again = $('sheets').querySelector('.ph[data-id="' + id + '"]'); if (again) again.focus();
+  });
+  $('sheets').addEventListener('dragstart', (e) => { const b = e.target.closest('.ph'); if (!b) return; e.dataTransfer.setData('text/x-photo', b.dataset.id); e.dataTransfer.effectAllowed = 'move'; });
+  $('sheets').addEventListener('dragover', (e) => { if (Array.from(e.dataTransfer.types).includes('text/x-photo') && e.target.closest('.ph')) e.preventDefault(); });
+  $('sheets').addEventListener('drop', (e) => { const from = e.dataTransfer.getData('text/x-photo'), b = e.target.closest('.ph'); if (!from || !b || S.busy) return; e.preventDefault(); S.picked = null; swap(from, b.dataset.id); render(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.picked) { S.picked = null; render(); } });
+
+  // 整批拖進視窗
+  let dragDepth = 0;
+  const hasFiles = (e) => e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files');
+  document.addEventListener('dragenter', (e) => { if (hasFiles(e)) { dragDepth++; document.body.classList.add('dragging'); } });
+  document.addEventListener('dragleave', (e) => { if (hasFiles(e) && --dragDepth <= 0) { dragDepth = 0; document.body.classList.remove('dragging'); } });
+  document.addEventListener('dragover', (e) => { if (hasFiles(e)) e.preventDefault(); });
+  document.addEventListener('drop', (e) => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth = 0; document.body.classList.remove('dragging'); if (!S.busy) addFiles(e.dataTransfer.files); });
+
+  $('pick').addEventListener('click', () => $('file').click());
+  $('more').addEventListener('click', () => $('file').click());
+  $('file').addEventListener('change', (e) => { const f = Array.from(e.target.files); e.target.value = ''; addFiles(f); });
+  $('demo').addEventListener('click', addDemo);
+  $('again').addEventListener('click', () => { S.seed++; autoLayout(); });
+  $('pages').addEventListener('change', (e) => { S.pages = e.target.value === 'auto' ? 'auto' : +e.target.value; autoLayout(); });
+  $('sort').addEventListener('change', (e) => { S.sort = e.target.value; autoLayout(); });
+  $('size').addEventListener('change', () => render());
+  let clearTimer = 0;
+  $('clear').addEventListener('click', (e) => {
+    const b = e.currentTarget;
+    if (b.classList.contains('btn--armed')) { clearTimeout(clearTimer); b.classList.remove('btn--armed'); b.textContent = '清空'; resetAll(); $('work').hidden = true; $('empty').hidden = false; $('count').textContent = ''; $('sheets').textContent = ''; return; }
+    b.classList.add('btn--armed'); b.textContent = '確定清空？';
+    clearTimer = setTimeout(() => { b.classList.remove('btn--armed'); b.textContent = '清空'; }, 3500);
+  });
+
+  // ---------------------------------------------------------------------
+  // 輸出
+  const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let i = 0; i < 8; i++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  const crc32 = (u8) => { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+  async function zipOf(files) {
+    const enc = new TextEncoder(), parts = [], central = [], d = new Date();
+    const dosT = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1), dosD = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    let off = 0;
+    for (const f of files) {
+      const data = new Uint8Array(await f.blob.arrayBuffer()), crc = crc32(data), name = enc.encode(f.name);
+      const lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(10, dosT, true); lh.setUint16(12, dosD, true); lh.setUint32(14, crc, true); lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true); lh.setUint16(26, name.length, true);
+      parts.push(lh.buffer, name, f.blob);
+      const ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(12, dosT, true); ch.setUint16(14, dosD, true); ch.setUint32(16, crc, true); ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true); ch.setUint16(28, name.length, true); ch.setUint32(42, off, true);
+      central.push(ch.buffer, name); off += 30 + name.length + data.length;
+    }
+    const cd = sum(central, (p) => p.byteLength), end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cd, true); end.setUint32(16, off, true);
+    return new Blob(parts.concat(central, [end.buffer]), { type: 'application/zip' });
+  }
+  const tokenColor = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  async function drawSheet(sh, outH) {
+    const k = outH / REF.H, W = Math.round((sh.single ? REF.PW : REF.PW * 2) * k), c = document.createElement('canvas');
+    c.width = W; c.height = outH;
+    const g = c.getContext('2d'); g.fillStyle = PRINT_WHITE; g.fillRect(0, 0, W, outH); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+    for (const r of sh.rects) {
+      const x = Math.round(r.x * k), y = Math.round(r.y * k), w = Math.round((r.x + r.w) * k) - x, h = Math.round((r.y + r.h) * k) - y;
+      if (!r.ph.file) { g.fillStyle = tokenColor('--color-demo-' + 'abcd'[r.ph.tone]); g.fillRect(x, y, w, h); continue; }
+      const bm = await createImageBitmap(r.ph.file, { imageOrientation: 'from-image' });
+      const want = w / h; let sw = bm.width, shh = bm.height;
+      if (sw / shh > want) sw = shh * want; else shh = sw / want;          // 只修掉四捨五入差的那一兩個像素，不算裁切
+      g.drawImage(bm, (bm.width - sw) / 2, (bm.height - shh) / 2, sw, shh, x, y, w, h); bm.close();
+    }
+    const blob = await new Promise((res) => c.toBlob(res, 'image/jpeg', 0.95));
+    c.width = c.height = 0;
+    return blob;
+  }
+  const stamp = () => { const d = new Date(), p = (n) => String(n).padStart(2, '0'); return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '_' + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); };
+  let capPromise = null;
+  const inArtifact = () => !!(window.claude && typeof window.claude.use === 'function');
+  const getCap = () => capPromise || (capPromise = inArtifact() ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null));
+  const canPickDir = () => typeof window.showDirectoryPicker === 'function' && window.top === window.self;
+  async function exportAll() {
+    if (S.busy) return;
+    const list = sheets(); if (!list.length) return;
+    const outH = +$('size').value, folderName = '相本排版_' + stamp();
+    let dir = null, cap = null;
+    if (inArtifact()) { cap = await getCap(); if (!cap) { setStatus('這個檢視畫面不能存檔。請改用下載到電腦的那一份來輸出。', 'error'); return; } }
+    else if (canPickDir() && $('how').value === 'dir') {
+      try { const root = await window.showDirectoryPicker({ mode: 'readwrite' }); dir = await root.getDirectoryHandle(folderName, { create: true }); }
+      catch (e) { if (e && e.name === 'AbortError') return; dir = null; }
+    }
+    setBusy(true); render();
+    const files = [];
+    try {
+      for (let i = 0; i < list.length; i++) {
+        const name = list[i].name + '.jpg';
+        setStatus('輸出中 ' + (i + 1) + ' / ' + list.length + '：' + name); setMeter(i / list.length);
+        const blob = await drawSheet(list[i], outH);
+        if (dir) { const fh = await dir.getFileHandle(name, { create: true }), w = await fh.createWritable(); await w.write(blob); await w.close(); }
+        else files.push({ name, blob });
+      }
+      setMeter(1);
+      if (dir) { finish('已把 ' + list.length + ' 個檔存進你選的資料夾裡的「' + folderName + '」。'); return; }
+      setStatus('打包中'); const zip = await zipOf(files), zipName = folderName + '.zip';
+      if (cap) { await cap.save({ filename: zipName, data: zip }); finish('已交給瀏覽器存檔：' + zipName + '，裡面有 ' + list.length + ' 個檔。'); return; }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(zip); a.download = zipName; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+      finish('已下載 ' + zipName + '，裡面有 ' + list.length + ' 個檔。');
+    } catch (e) {
+      const declined = e && e.code === 'declined';
+      setBusy(false); setMeter(null); render(); setStatus(declined ? '你取消了存檔，沒有存任何東西。' : '輸出失敗：' + ((e && e.message) || '原因不明') + '。照片都還在，可以再按一次。', 'error');
+    }
+  }
+  function finish(msg) { setBusy(false); setMeter(null); render(); setStatus(msg); }
+  $('export').addEventListener('click', exportAll);
+  if (canPickDir() && !inArtifact()) $('how-field').hidden = false;
+
+  // ---------------------------------------------------------------------
+  // 規則表：用同一套版面計算畫小圖
+  function fillRules() {
+    const body = $('rules-rows'), std = (cls) => ({ cls, ar: cls === 'L' ? 1.5 : 2 / 3 });
+    const total = sum(Object.values(COMP_W), (v) => v);
+    for (const key of RULE_ORDER) {
+      const m = /^L(\d+)P(\d+)$/.exec(key), photos = []; for (let i = 0; i < +m[1]; i++) photos.push(std('L')); for (let i = 0; i < +m[2]; i++) photos.push(std('P'));
+      const tr = el('tr'), th = el('td', '', mixText(photos) + ' 張'), n = el('td', 'num', COMP_W[key] + ' 次，佔 ' + Math.round(COMP_W[key] / total * 100) + '%'), td = el('td'), minis = el('div', 'minis');
+      const all = sum(TPL[key], (t) => t.w);
+      for (const t of TPL[key]) {
+        const mini = el('div', 'mini'), sheet = el('div', 'mini-sheet');
+        for (const r of layoutSpread(photos, t, 'A')) { const i = el('i'); i.style.left = (r.x / 8000 * 100) + '%'; i.style.top = (r.y / 4000 * 100) + '%'; i.style.width = (r.w / 8000 * 100) + '%'; i.style.height = (r.h / 4000 * 100) + '%'; sheet.append(i); }
+        mini.append(sheet, el('span', 'mini-pct num', Math.round(t.w / all * 100) + '%')); minis.append(mini);
+      }
+      td.append(minis); tr.append(th, n, td); body.append(tr);
+    }
+  }
+  fillRules();
+  fillPages(24);
+})();
+</script>
+</body>
+</html>
