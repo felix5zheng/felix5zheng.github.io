@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src blob: data:; style-src 'unsafe-inline'; script-src 'sha256-no5zO1jh5elC/LcXUzpygObVLwTpgU2v3WQWSc3vqls='; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src blob: data:; style-src 'unsafe-inline'; script-src 'sha256-ICJLZ4flQGQc4vlBdVfC5Kgrhy/il+J8vjd+WdWqrq4='; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f7f5f1">
@@ -232,25 +232,29 @@ body.dragging .drop, body.dragging .sheets-band { box-shadow: inset 0 0 0 2px va
   // 每種「橫 n 直 m」組合，過去實際用過的版型與次數
   // S：整個跨頁排成一排；PG：左右頁各一組。格子：P 直幅、L 橫幅、C 兩張橫幅上下疊
   const TPL = {
-    L1P1: [{ w: 118, S: ['L', 'P'] }, { w: 88, S: ['P', 'L'] }, { w: 18, PG: [['P'], ['L']] }, { w: 8, PG: [['L'], ['P']] }],
-    L0P2: [{ w: 150, S: ['P', 'P'] }, { w: 69, PG: [['P'], ['P']] }],
-    L1P2: [{ w: 101, S: ['L', 'P', 'P'] }, { w: 86, S: ['P', 'P', 'L'] }, { w: 8, PG: [['P', 'P'], ['L']] }, { w: 3, PG: [['L'], ['P', 'P']] }],
-    L0P3: [{ w: 75, PG: [['P'], ['P', 'P']] }, { w: 58, PG: [['P', 'P'], ['P']] }, { w: 55, S: ['P', 'P', 'P'] }],
-    L2P0: [{ w: 164, S: ['L', 'L'] }, { w: 4, PG: [['L'], ['L']] }],
-    L4P0: [{ w: 80, S: ['C', 'C'] }, { w: 39, PG: [['C'], ['C']] }],
-    L3P0: [{ w: 53, S: ['L', 'C'] }, { w: 31, S: ['C', 'L'] }, { w: 11, PG: [['L'], ['C']] }, { w: 6, PG: [['C'], ['L']] }],
-    L2P1: [{ w: 31, S: ['C', 'P'] }, { w: 16, S: ['P', 'C'] }, { w: 12, PG: [['P'], ['C']] }, { w: 8, PG: [['C'], ['P']] }],
-    L0P4: [{ w: 29, S: ['P', 'P', 'P', 'P'] }, { w: 10, PG: [['P', 'P'], ['P', 'P']] }],
-    L2P2: [{ w: 7, PG: [['P', 'P'], ['C']] }, { w: 5, PG: [['C'], ['P', 'P']] }, { w: 5, S: ['C', 'P', 'P'] }, { w: 4, S: ['P', 'P', 'C'] }],
-    L1P0: [{ w: 15, S: ['L'] }, { w: 6, S: ['L'], inset: true }],
-    L8P0: [{ w: 7, S: ['C', 'C', 'C', 'C'] }],
-    L2P3: [{ w: 1, PG: [['P', 'P', 'P'], ['C']] }, { w: 1, S: ['C', 'P', 'P', 'P'] }],
-    L4P2: [{ w: 2, S: ['C', 'C', 'P', 'P'] }, { w: 1, PG: [['C', 'C'], ['P', 'P']] }],
-    L3P1: [{ w: 1, S: ['C', 'P', 'L'] }, { w: 1, S: ['L', 'C', 'P'] }],
-    L6P0: [{ w: 2, S: ['C', 'C', 'C'] }]
+    L1P1: [{ w: 114, S: ['L', 'P'] }, { w: 87, S: ['P', 'L'] }, { w: 18, PG: [['P'], ['L']] }, { w: 8, PG: [['L'], ['P']] }],
+    L0P2: [{ w: 149, S: ['P', 'P'] }, { w: 66, PG: [['P'], ['P']] }],
+    L1P2: [{ w: 91, S: ['L', 'P', 'P'] }, { w: 82, S: ['P', 'P', 'L'] }, { w: 8, PG: [['P', 'P'], ['L']] }, { w: 3, PG: [['L'], ['P', 'P']] }, { w: 1, PG: [['P'], ['P', 'L']] }, { w: 1, S: ['P', 'L', 'P'] }],
+    L0P3: [{ w: 71, PG: [['P'], ['P', 'P']] }, { w: 56, PG: [['P', 'P'], ['P']] }, { w: 52, S: ['P', 'P', 'P'] }],
+    L2P0: [{ w: 152, S: ['L', 'L'] }, { w: 4, PG: [['L'], ['L']] }],
+    L3P0: [{ w: 47, S: ['L', 'C'] }, { w: 31, S: ['C', 'L'] }, { w: 7, PG: [['L'], ['C']] }, { w: 5, PG: [['C'], ['L']] }],
+    L4P0: [{ w: 52, S: ['C', 'C'] }, { w: 25, PG: [['C'], ['C']] }],
+    L2P1: [{ w: 26, S: ['C', 'P'] }, { w: 14, S: ['P', 'C'] }, { w: 12, PG: [['P'], ['C']] }, { w: 8, PG: [['C'], ['P']] }, { w: 1, S: ['L', 'L', 'P'] }, { w: 1, S: ['P', 'L', 'L'] }],
+    L0P4: [{ w: 26, S: ['P', 'P', 'P', 'P'] }, { w: 10, PG: [['P', 'P'], ['P', 'P']] }],
+    L1P0: [{ w: 16, S: ['L'] }, { w: 5, S: ['L'], inset: true }],
+    L2P2: [{ w: 7, PG: [['P', 'P'], ['C']] }, { w: 4, PG: [['C'], ['P', 'P']] }, { w: 4, S: ['C', 'P', 'P'] }, { w: 3, S: ['P', 'P', 'C'] }, { w: 1, PG: [['C', 'P'], ['P']] }, { w: 1, S: ['P', 'C', 'P'] }],
+    L8P0: [{ w: 5, S: ['C', 'C', 'C', 'C'] }],
+    L2P3: [{ w: 1, S: ['C', 'P', 'P', 'P'] }, { w: 1, S: ['P', 'C', 'P', 'P'] }, { w: 1, PG: [['P', 'P', 'P'], ['C']] }, { w: 1, S: ['P', 'L', 'L', 'P', 'P'] }],
+    L4P2: [{ w: 1, S: ['C', 'C', 'P', 'P'] }, { w: 1, PG: [['C', 'C'], ['P', 'P']] }],
+    L6P0: [{ w: 2, S: ['C', 'C', 'C'] }],
+    L3P1: [{ w: 1, S: ['L', 'C', 'P'] }, { w: 1, S: ['C', 'P', 'L'] }],
+    L4P1: [{ w: 1, S: ['C', 'P', 'C'] }],
+    L6P1: [{ w: 1, S: ['C', 'C', 'C', 'P'] }],
+    L5P2: [{ w: 1, PG: [['P', 'L', 'P'], ['C', 'C']] }],
+    L5P1: [{ w: 1, PG: [['L', 'C'], ['P', 'C']] }]
   };
-  const COMP_W = { L1P1: 241, L0P2: 225, L1P2: 204, L0P3: 190, L2P0: 169, L4P0: 120, L3P0: 102, L2P1: 69, L0P4: 39, L2P2: 23, L1P0: 21, L8P0: 7, L2P3: 4, L4P2: 3, L3P1: 2, L6P0: 2 };
-  const PER_SPREAD = 2.64;
+  const COMP_W = { L1P1: 227, L0P2: 215, L1P2: 186, L0P3: 179, L2P0: 156, L3P0: 90, L4P0: 77, L2P1: 62, L0P4: 36, L1P0: 21, L2P2: 20, L8P0: 5, L2P3: 4, L4P2: 2, L6P0: 2, L3P1: 2, L4P1: 1, L6P1: 1, L5P2: 1, L5P1: 1 };
+  const PER_SPREAD = 2.65;
   const PRINT_WHITE = '#ffffff';   // 輸出的紙是純白，跟量到的檔案一致
   const MODES = ['A', 'B', 'C'];
   const MODE_NAME = { A: '靠外', B: '置中', C: '出血' };
